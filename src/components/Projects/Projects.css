@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px 0;
+}
+
+.projects-item {
+    flex-basis: 25%;
+    overflow: hidden;
+}
+
+.projects-item img {
+    width: 100%;
+}
