@@ -4,6 +4,11 @@ import "./App.css";
 import LeftToolbar from "./components/LeftToolbar/LeftToolbar";
 
 class App extends Component {
+
+    state = {
+        active: 0,
+    };
+
     render() {
         return (
             <div className="page">

@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { setPreviewLogo } from "../../store/actions";
 import "./LeftToolbar.css";
 import logos from "./Logos";
 
@@ -24,6 +27,7 @@ class LeftToolbar extends Component {
     }
 
     render() {
+        console.log(this.props);
         const { active } = this.state;
         const marginTop = active * window.innerHeight;
 
@@ -52,4 +56,14 @@ class LeftToolbar extends Component {
     }
 }
 
-export default LeftToolbar;
+const mapStateToProps = (state) => {
+    return {
+        previewLogos: state.previewLogos,
+    };
+};
+
+const mapDispatchToProps = {
+    setPreviewLogo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftToolbar);
