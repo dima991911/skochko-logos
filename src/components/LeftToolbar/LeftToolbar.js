@@ -13,10 +13,12 @@ class LeftToolbar extends Component {
             const classes = index === currentLogoIndex ? 'slider-navigation-item slider-navigation-item-active' : 'slider-navigation-item';
             return (
                 <div
-                    className={classes}
                     key={index}
+                    className="slider-navigation-item-wrapper"
                     onClick={() => this.changeCurrentPreviewLogo(index)}
-                />
+                >
+                    <div className={classes} />
+                </div>
             )
         });
     };
@@ -55,6 +57,9 @@ class LeftToolbar extends Component {
                 </div>
                 <div className="slider-navigation-container">
                     {this.renderSliderNavigation()}
+                    <div className="contact-button">
+                        Contact
+                    </div>
                 </div>
             </div>
         )
