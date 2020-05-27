@@ -1,0 +1,33 @@
+.page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+}
+
+.main {
+    flex: 1;
+    overflow: auto;
+}
+
+.left-container {
+    flex-basis: 60%;
+}
+
+.right-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.about-container {
+    position: relative;
+    flex-basis: 40%;
+    background: green;
+    z-index: 10;
+}
+
+.logos-container {
+    flex: 1;
+    background: gray;
+}
