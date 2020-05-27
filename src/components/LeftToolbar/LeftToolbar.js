@@ -1,55 +1,79 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+
+import { setPreviewLogo } from "../../store/actions";
 import "./LeftToolbar.css";
-import logos from "./Logos";
 
 class LeftToolbar extends Component {
 
-    state = {
-        active: 0,
+    renderSliderNavigation = () => {
+        const { currentLogoIndex, logos } = this.props.previewLogos;
+
+        return logos.map((logo, index) => {
+            const classes = index === currentLogoIndex ? 'slider-navigation-item slider-navigation-item-active' : 'slider-navigation-item';
+            return (
+                <div
+                    key={index}
+                    className="slider-navigation-item-wrapper"
+                    onClick={() => this.changeCurrentPreviewLogo(index)}
+                >
+                    <div className={classes} />
+                </div>
+            )
+        });
     };
 
-    componentDidMount() {
-        this.animationInterval = setInterval(() => {
-            const { active } = this.state;
-            if (active === logos.length - 1) {
-                clearInterval(this.animationInterval);
-            } else {
-                this.setState({ active: active + 1 });
-            }
-        }, 2700);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.animationInterval);
-    }
+    changeCurrentPreviewLogo = (index) => {
+        const { setPreviewLogo } = this.props;
+        setPreviewLogo(index);
+    };
 
     render() {
-        const { active } = this.state;
-        const marginTop = active * window.innerHeight;
+        const { currentLogoIndex, logos } = this.props.previewLogos;
+        const marginTop = currentLogoIndex * window.innerHeight;
 
+        /*TODO: Done animation*/
         return (
-            <div className="projects" style={{ marginTop: -marginTop }}>
-                {
-                    logos.map((logo, index) => {
-                        let classes = 'project-item-logo';
-                        if (index < active) classes += ' project-item-logo-after';
-                        else if (index > active) classes += ' project-item-logo-before';
+            <div className="projects-wrapper">
+                <div className="projects" style={{ transform: `translateY(${-marginTop}px)` }}>
+                    {
+                        logos.map((logo, index) => {
+                            let classes = 'project-item-logo';
+                            if (index < currentLogoIndex) classes += ' project-item-logo-after';
+                            else if (index > currentLogoIndex) classes += ' project-item-logo-before';
 
-                        return (
-                            <div className="project-item"
-                                 style={{ background: logo.bgColor }}
-                                 key={index}
-                            >
-                                <div className={classes}>
-                                    <img src={logo.logoSrc} alt="Photo" />
+                            return (
+                                <div className="project-item"
+                                     style={{ background: logo.bgColor }}
+                                     key={index}
+                                >
+                                    <div className={classes}>
+                                        <img src={logo.logoSrc} alt="Photo" />
+                                    </div>
                                 </div>
-                            </div>
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
+                </div>
+                <div className="slider-navigation-container">
+                    {this.renderSliderNavigation()}
+                    <div className="contact-button">
+                        Contact
+                    </div>
+                </div>
             </div>
         )
     }
 }
 
-export default LeftToolbar;
+const mapStateToProps = (state) => {
+    return {
+        previewLogos: state.previewLogos,
+    };
+};
+
+const mapDispatchToProps = {
+    setPreviewLogo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeftToolbar);

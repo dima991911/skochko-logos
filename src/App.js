@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import "./App.css";
 
 import LeftToolbar from "./components/LeftToolbar/LeftToolbar";
+import ProjectPresentation from "./components/ProjectPresentation/ProjectPresentation";
 
 class App extends Component {
+
+    state = {
+        active: 0,
+    };
+
     render() {
         return (
             <div className="page">
@@ -16,7 +22,7 @@ class App extends Component {
 
                     </div>
                     <div className="logos-container">
-
+                        <ProjectPresentation />
                     </div>
                 </div>
             </div>

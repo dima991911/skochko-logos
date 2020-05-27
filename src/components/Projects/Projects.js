@@ -4,7 +4,6 @@ import "./Projects.css";
 class Projects extends Component {
     render() {
         const arr = new Array(10).fill(true, 0);
-        console.log(arr);
 
         return (
             <div className="container">

@@ -11,21 +11,23 @@
 }
 
 .left-container {
-  flex-basis: 50%;
+  flex-basis: 60%;
 }
 
 .right-container {
   display: flex;
   flex-direction: column;
-  flex-basis: 50%;
+  flex: 1;
 }
 
 .about-container {
-  flex-basis: 50%;
+  position: relative;
+  flex-basis: 40%;
   background: green;
+  z-index: 10;
 }
 
 .logos-container {
-  flex-basis: 50%;
+  flex: 1;
   background: gray;
 }
