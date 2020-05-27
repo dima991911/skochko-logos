@@ -1,33 +1,27 @@
-import React, { Component } from "react";
+import React from "react";
 import "./App.css";
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+} from "react-router-dom";
 
-import LeftToolbar from "./components/LeftToolbar/LeftToolbar";
-import ProjectPresentation from "./components/ProjectPresentation/ProjectPresentation";
+import Portfolio from "./pages/Portfolio/Portfolio";
+import Login from "./pages/Login/Login";
 
-class App extends Component {
-
-    state = {
-        active: 0,
-    };
-
-    render() {
-        return (
-            <div className="page">
-                <div className="left-container">
-                    <LeftToolbar />
-                </div>
-
-                <div className="right-container">
-                    <div className="about-container">
-
-                    </div>
-                    <div className="logos-container">
-                        <ProjectPresentation />
-                    </div>
-                </div>
-            </div>
-        );
-    }
+function App() {
+    return (
+        <Router>
+            <Switch>
+                <Route exact path="/" >
+                    <Portfolio />
+                </Route>
+                <Route path="/login" >
+                    <Login />
+                </Route>
+            </Switch>
+        </Router>
+    );
 }
 
 export default App;
