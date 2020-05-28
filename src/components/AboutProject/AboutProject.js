@@ -1,14 +1,18 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import "./AboutProject.css";
 
 import plusIcon from "../../images/icons/black-plus.png";
 
 class AboutProject extends Component {
     render() {
-        const { isAuthenticated } = this.props;
+        const { isAuthenticated, previewLogo } = this.props;
 
         return (
-            <div className="about-wrapper" style={{ color: 'white' }}>
+            <div
+                className="about-wrapper"
+                style={{ color: previewLogo.rightTopSectionFontColor, background: previewLogo.rightTopSectionBg }}
+            >
                 {
                     isAuthenticated && (
                         <div className="add-project" title="Add project"><img src={plusIcon} alt="Add Project"/></div>
@@ -16,16 +20,23 @@ class AboutProject extends Component {
                 }
 
                 <section className="logo-info-container">
-                    <h2 className="logo-info-item logo-name">BEARD STYLE</h2>
-                    <p className="logo-info-item logo-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab ad asperiores commodi consequuntur deleniti, eveniet ex fugiat molestias optio quaerat similique temporibus ullam ut voluptatum.</p>
+                    <h2 className="logo-info-item logo-name">{previewLogo.name}</h2>
+                    <p className="logo-info-item logo-description">{previewLogo.description}</p>
                     <a href="#" className="logo-info-item logo-website" style={{ color: 'white' }}>https://baardstyleshop.nl</a>
                 </section>
                 <footer className="logo-created">
-                    Logo design, 2015
+                    Logo design, {previewLogo.logoCreatedAt}
                 </footer>
             </div>
         )
     }
 }
 
-export default AboutProject;
+const mapStateToProps = (state) => {
+    const previewLogo = state.previewLogos.logos[state.previewLogos.currentLogoIndex];
+    return {
+        previewLogo,
+    };
+};
+
+export default connect(mapStateToProps, null)(AboutProject);

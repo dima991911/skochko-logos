@@ -13,7 +13,7 @@ export default function PresentationLogoAnimation({ project, activeSample }) {
                     return (
                         <div
                             className="samples-item"
-                            style={{ backgroundColor: sample, zIndex: zIndex }}
+                            style={{ backgroundImage: `url(${sample.sampleSrc})`, zIndex: zIndex }}
                             key={index}
                         />
                     )

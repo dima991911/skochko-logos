@@ -40,19 +40,12 @@ class LeftToolbar extends Component {
                 <div className="projects" style={{ transform: `translateY(${-marginTop}px)` }}>
                     {
                         logos.map((logo, index) => {
-                            let classes = 'project-item-logo';
-                            if (index < currentLogoIndex) classes += ' project-item-logo-after';
-                            else if (index > currentLogoIndex) classes += ' project-item-logo-before';
-
                             return (
-                                <div className="project-item"
-                                     style={{ background: logo.bgColor }}
-                                     key={index}
-                                >
-                                    <div className={classes}>
-                                        <img src={logo.logoSrc} alt="Photo" />
-                                    </div>
-                                </div>
+                                <div
+                                    className="project-item"
+                                    style={{ background: `url(${logo.logoSrc})` }}
+                                    key={index}
+                                />
                             )
                         })
                     }
