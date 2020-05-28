@@ -7,7 +7,10 @@ const initialState = {
     previewLogos: {
         logos,
         currentLogoIndex: 0,
-    }
+    },
+    previewLogoForCreating: {
+
+    },
 };
 
 function reducers(state = initialState, action) {
