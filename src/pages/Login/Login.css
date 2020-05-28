@@ -49,3 +49,8 @@
     opacity: .5;
     cursor: default;
 }
+
+.error-container {
+    margin-top: 10px;
+    color: red;
+}
