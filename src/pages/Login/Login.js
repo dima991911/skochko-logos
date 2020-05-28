@@ -1,13 +1,24 @@
 import React, { useState } from "react";
 import "./Login.css";
 
-function Login() {
+import UserService from "../../services/user.service";
+
+function Login({ history }) {
 
     const [login, setLogin] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState(false);
 
     const loginToSite = () => {
-        // TODO: make request to db
+        UserService.login(login, password).then(res => {
+            if (res.token) {
+                UserService.setToken(res.token);
+                history.push('/');
+            } else {
+                setError(true);
+                setTimeout(() => setError(false), 3000);
+            }
+        });
     };
 
     return (
@@ -35,6 +46,14 @@ function Login() {
                     disabled={login === "" || password === ""}
                     onClick={() => loginToSite()}
                 />
+
+                {
+                    error && (
+                        <div className="error-container">
+                            User not found
+                        </div>
+                    )
+                }
             </form>
         </div>
     )
