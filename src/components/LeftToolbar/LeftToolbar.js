@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { setPreviewLogo } from "../../store/actions";
 import "./LeftToolbar.css";
 
+import plusIcon from "../../images/icons/white-plus.png";
+
 class LeftToolbar extends Component {
 
     renderSliderNavigation = () => {
@@ -55,11 +57,18 @@ class LeftToolbar extends Component {
                         })
                     }
                 </div>
+
                 <div className="slider-navigation-container">
                     {this.renderSliderNavigation()}
+
                     <div className="contact-button">
                         Contact
                     </div>
+                </div>
+
+                <div className="more-projects">
+                    <img src={plusIcon} alt="More projects"/>
+                    <span>MORE PROJECTS</span>
                 </div>
             </div>
         )

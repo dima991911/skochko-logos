@@ -75,3 +75,18 @@
 .contact-button:hover {
     color: #FB4747;
 }
+
+.more-projects {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.more-projects img {
+    margin-right: 15px;
+}
