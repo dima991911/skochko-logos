@@ -2,9 +2,20 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import "./AboutProject.css";
 
+import { addPreviewLogo } from "../../store/actions";
 import plusIcon from "../../images/icons/black-plus.png";
+import { LogoPreview } from "../../helpers/defaultData";
+import ProjectMode from "../../enums/ProjectMode";
 
 class AboutProject extends Component {
+
+    addNewLogo = () => {
+        const { addPreviewLogo } = this.props;
+        const newLogoPreview = new LogoPreview(ProjectMode.ProjectToAdd);
+
+        addPreviewLogo(newLogoPreview);
+    };
+
     render() {
         const { isAuthenticated, previewLogo } = this.props;
 
@@ -15,7 +26,13 @@ class AboutProject extends Component {
             >
                 {
                     isAuthenticated && (
-                        <div className="add-project" title="Add project"><img src={plusIcon} alt="Add Project"/></div>
+                        <div
+                            className="add-project"
+                            title="Add project"
+                            onClick={this.addNewLogo}
+                        >
+                            <img src={plusIcon} alt="Add Project"/>
+                        </div>
                     )
                 }
 
@@ -39,4 +56,8 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, null)(AboutProject);
+const mapDispatchToProps = {
+    addPreviewLogo,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AboutProject);

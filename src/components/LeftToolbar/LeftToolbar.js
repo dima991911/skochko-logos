@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { setPreviewLogo } from "../../store/actions";
 import "./LeftToolbar.css";
+import ProjectItem from "./ProjectItem";
 
+import { setPreviewLogo } from "../../store/actions";
 import plusIcon from "../../images/icons/white-plus.png";
+import ProjectMode from "../../enums/ProjectMode";
+import ProjectToAdd from "./ProjectToAdd";
 
 class LeftToolbar extends Component {
 
@@ -40,13 +43,24 @@ class LeftToolbar extends Component {
                 <div className="projects" style={{ transform: `translateY(${-marginTop}px)` }}>
                     {
                         logos.map((logo, index) => {
-                            return (
-                                <div
-                                    className="project-item"
-                                    style={{ background: `url(${logo.logoSrc})` }}
+                            // return (
+                            //     <div
+                            //         className="project-item"
+                            //         style={{ background: `url(${logo.logoSrc})` }}
+                            //         key={index}
+                            //     />
+                            // )
+                            return logo.mode === ProjectMode.ProjectToAdd ?
+                                <ProjectToAdd
                                     key={index}
+                                    index={index}
+                                    logo={logo}
+                                /> :
+                                <ProjectItem
+                                    key={index}
+                                    index={index}
+                                    logo={logo}
                                 />
-                            )
                         })
                     }
                 </div>

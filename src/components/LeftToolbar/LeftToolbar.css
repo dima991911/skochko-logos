@@ -92,3 +92,30 @@
 .more-projects img {
     margin-right: 15px;
 }
+
+.project-item-preview {
+    position: relative;
+    background: #340f0f;
+}
+
+.project-item-preview-input {
+    display: none;
+}
+
+.project-item-preview-input-ui {
+    position: absolute;
+    left: 50%;
+    top: 30px;
+    font-size: 12px;
+    padding: 5px 10px;
+    background: #023cff;
+    border-radius: 2px;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,0.4);
+    transform: translateX(-50%);
+    transition: .5s;
+    cursor: pointer;
+}
+
+.project-item-preview-input-ui:hover {
+    box-shadow: 0 10px 10px 0 rgba(0,0,0,0.8);
+}
