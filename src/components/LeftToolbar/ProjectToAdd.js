@@ -41,7 +41,7 @@ class ProjectToAdd extends Component {
         return (
             <div
                 className="project-item project-item-preview"
-                style={{ backgroundImage: `url(${bgImage})`, backgroundColor: 'red' }}
+                style={{ backgroundImage: `url(${bgImage})` }}
             >
                 <div
                     className="project-item-preview-input-ui"
