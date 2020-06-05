@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
-import { changeAddPreviewLogo } from "../../store/actions";
 import { fileToBase64 } from "../../helpers/helpers";
 
 class ProjectToAdd extends Component {
@@ -21,7 +19,7 @@ class ProjectToAdd extends Component {
         if (logo.logoSrc) {
             fileToBase64(logo.logoSrc).then(bgImage => this.setState({ bgImage }))
         }
-    }
+    };
 
     openFileInput = () => {
         this.inputRef.current.click();
@@ -60,8 +58,4 @@ class ProjectToAdd extends Component {
     }
 }
 
-const mapDispatchToProps = {
-    changeAddPreviewLogo,
-};
-
-export default connect(null, mapDispatchToProps)(ProjectToAdd);
+export default ProjectToAdd;

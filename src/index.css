@@ -49,3 +49,9 @@ body {
   background: #fafafa;
   overflow: hidden;
 }
+
+input:focus, textarea:focus, textarea {
+  outline: none;
+  resize: none;
+}
+

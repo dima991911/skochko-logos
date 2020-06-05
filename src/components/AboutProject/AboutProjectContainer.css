@@ -46,6 +46,17 @@
 .logo-description {
     font-size: 14px;
     line-height: 1.5;
+    word-break: break-all;
+}
+
+.logo-created {
+    display: flex;
+}
+
+.logo-created input {
+    flex: 1;
+    width: auto;
+    margin-left: 10px;
 }
 
 .logo-website {
@@ -56,4 +67,38 @@
 
 .logo-website:hover {
     opacity: 1;
+}
+
+.logo-info-input {
+    display: block;
+    width: 100%;
+    background: none;
+    box-sizing: border-box;
+    word-break: break-all;
+    border: none;
+}
+
+.logo-info-input:focus {
+    border-bottom: 1px solid #FB4747;
+}
+
+.color-picker-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.bg-color-picker {
+    position: relative;
+    width: 20px;
+    height: 10px;
+    margin-right: 10px;
+    padding: 1px;
+    background: #fafafa;
+    border: 1px solid gray;
+    cursor: pointer;
+}
+
+.sketch-picker-container {
+    position: absolute;
+    top: 100%;
 }

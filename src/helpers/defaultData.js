@@ -3,7 +3,8 @@ class LogoPreview {
         this.name = '';
         this.logoSrc = null;
         this.description = '';
-        this.logoCreatedAt = null;
+        this.logoCreatedAt = '';
+        this.webSite = '';
         this.rightTopSectionBg = 'black';
         this.rightTopSectionFontColor = 'white';
         this.samplesProject = [];

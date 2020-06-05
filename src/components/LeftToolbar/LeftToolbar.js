@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
 import "./LeftToolbar.css";
 import ProjectItem from "./ProjectItem";
 
-import { setPreviewLogo } from "../../store/actions";
 import plusIcon from "../../images/icons/white-plus.png";
 import ProjectMode from "../../enums/ProjectMode";
 import ProjectToAdd from "./ProjectToAdd";
@@ -12,7 +10,7 @@ import ProjectToAdd from "./ProjectToAdd";
 class LeftToolbar extends Component {
 
     renderSliderNavigation = () => {
-        const { currentLogoIndex, logos } = this.props.previewLogos;
+        const { currentLogoIndex, logos } = this.props;
 
         return logos.map((logo, index) => {
             const classes = index === currentLogoIndex ? 'slider-navigation-item slider-navigation-item-active' : 'slider-navigation-item';
@@ -34,7 +32,7 @@ class LeftToolbar extends Component {
     };
 
     render() {
-        const { currentLogoIndex, logos } = this.props.previewLogos;
+        const { currentLogoIndex, logos, changeAddPreviewLogo } = this.props;
         const marginTop = currentLogoIndex * window.innerHeight;
 
         /*TODO: Done animation*/
@@ -43,16 +41,10 @@ class LeftToolbar extends Component {
                 <div className="projects" style={{ transform: `translateY(${-marginTop}px)` }}>
                     {
                         logos.map((logo, index) => {
-                            // return (
-                            //     <div
-                            //         className="project-item"
-                            //         style={{ background: `url(${logo.logoSrc})` }}
-                            //         key={index}
-                            //     />
-                            // )
                             return logo.mode === ProjectMode.ProjectToAdd ?
                                 <ProjectToAdd
                                     key={index}
+                                    changeAddPreviewLogo={changeAddPreviewLogo}
                                     index={index}
                                     logo={logo}
                                 /> :
@@ -82,14 +74,4 @@ class LeftToolbar extends Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        previewLogos: state.previewLogos,
-    };
-};
-
-const mapDispatchToProps = {
-    setPreviewLogo,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(LeftToolbar);
+export default LeftToolbar;
