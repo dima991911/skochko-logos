@@ -21,7 +21,8 @@ class ProjectPresentation extends Component {
 
     renderProjectSamples = () => {
         const { activeSample } = this.state;
-        const { logos, currentLogoIndex } = this.props.previewLogos;
+        const { currentLogoIndex } = this.props;
+        const { logos } = this.props.previewLogos;
 
         const transformY = currentLogoIndex * 100;
 

@@ -61,6 +61,7 @@ class Portfolio extends Component {
                     <div className="about-container">
                         <AboutProjectContainer
                             logo={currentLogo}
+                            currentLogoIndex={currentLogoIndex}
                             addPreviewLogo={this.handleAddPreviewLogo}
                             changeAddPreviewLogo={this.handleChangeAddPreviewLogo}
                             isAuthenticated={this.isAuthenticated}
@@ -68,6 +69,7 @@ class Portfolio extends Component {
                     </div>
                     <div className="logos-container">
                         <ProjectPresentation
+                            currentLogoIndex={currentLogoIndex}
                             isAuthenticated={this.isAuthenticated}
                         />
                     </div>

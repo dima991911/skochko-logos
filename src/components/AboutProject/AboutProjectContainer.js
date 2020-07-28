@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 import "./AboutProjectContainer.css";
 
 import AboutProjectInfo from "./AboutProjectInfo";
@@ -15,7 +16,7 @@ class AboutProjectContainer extends Component {
     };
 
     render() {
-        const { addPreviewLogo, isAuthenticated, logo } = this.props;
+        const { addPreviewLogo, isAuthenticated, logo, currentLogoIndex } = this.props;
         const isProjectToAdd = logo.mode === ProjectMode.ProjectToAdd;
 
         return (
@@ -35,11 +36,23 @@ class AboutProjectContainer extends Component {
                     )
                 }
 
-                {
-                    isProjectToAdd ?
-                        <AboutProjectAddInfo logo={logo} onChangeLogoInfo={this.handleChangeLogoInfo} /> :
-                        <AboutProjectInfo logo={logo} />
-                }
+                <SwitchTransition
+                    mode="out-in"
+                >
+                    <CSSTransition
+                        timeout={300}
+                        key={currentLogoIndex}
+                        className="info-wrapper"
+                    >
+                        <div>
+                            {
+                                isProjectToAdd ?
+                                    <AboutProjectAddInfo logo={logo} onChangeLogoInfo={this.handleChangeLogoInfo} /> :
+                                    <AboutProjectInfo logo={logo} />
+                            }
+                        </div>
+                    </CSSTransition>
+                </SwitchTransition>
             </div>
         )
     }
