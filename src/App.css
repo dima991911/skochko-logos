@@ -3,6 +3,10 @@
   top: 0;
   left: 0;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 90px 150px;
+  box-sizing: border-box;
 }
 
 .top-section-wrapper {
@@ -29,12 +33,13 @@
 .top-section {
   max-width: 800px;
   margin: 0 auto;
-  padding: 160px 0 120px;
+  padding: 220px 0 120px;
 }
 
 .top-section h1 {
   font-weight: 100;
-  font-family: Graphik,Arial,Helvetica,sans-serif;
+  font-size: 72px;
+  line-height: 90px;
 }
 
 .top-section-span-animate-wrapper {
@@ -44,9 +49,6 @@
 
 .top-section-span {
   display: block;
-  font-size: 72px;
-  line-height: 82px;
-  font-weight: 100;
   animation: titleAnimate;
 }
 
@@ -59,7 +61,7 @@
 }
 
 .works .column:nth-child(2) {
-  margin-top: 20vh;
+  margin-top: 25vh;
 }
 
 .columns {
@@ -95,7 +97,9 @@
   margin-top: 30px;
   margin-bottom: 30px;
   max-width: 300px;
-  font-size: 21px;
+  font-size: 18px;
+  line-height: 1.6;
+  font-weight: 400;
 }
 
 .bg-avatar-container {
