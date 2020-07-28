@@ -14,14 +14,6 @@
   overflow-x: hidden;
 }
 
-.header-wrapper {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  padding: 70px 0;
-  justify-content: space-between;
-}
-
 .header-logo {
   font-size: 24px;
 }
@@ -60,69 +52,8 @@
   box-sizing: border-box;
 }
 
-.works .column:nth-child(2) {
-  margin-top: 25vh;
-}
-
 .columns {
   display: flex;
-}
-
-.column {
-  width: 50%;
-  padding: 0 5%;
-}
-
-.work-name-container {
-  display: flex;
-  align-items: center;
-  padding-top: 60px;
-}
-
-.work-name-title {
-  padding-right: 20px;
-  white-space: nowrap;
-  opacity: .7;
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
-.work-name-line {
-  height: 1px;
-  background: rgba(255,255,255,.3);
-  width: 35%;
-}
-
-.work-description {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  max-width: 300px;
-  font-size: 18px;
-  line-height: 1.6;
-  font-weight: 400;
-}
-
-.bg-avatar-container {
-  overflow: hidden;
-  height: 80vh;
-  max-height: 500px;
-}
-
-.custom-class {
-  height: 100%;
-  margin: 0;
-}
-
-.parallax-inner {
-  height: 100%;
-}
-
-.bg-avatar {
-  width: 100%;
-  height: 120%;
-  position: relative;
-  background-position: center;
-  background-size: cover;
 }
 
 @keyframes titleAnimate {
@@ -141,7 +72,7 @@
     height: auto;
   }
 
-  .header-wrapper {
+  .header {
     padding: 30px 25px;
     box-sizing: border-box;
   }
@@ -159,12 +90,12 @@
     padding: 0 25px;
   }
 
-  .works .column:nth-child(2) {
-    margin-top: 0;
-  }
-
   .columns {
     flex-direction: column;
+  }
+
+  .works .column:nth-child(2) {
+    margin-top: 0;
   }
 
   .column {
