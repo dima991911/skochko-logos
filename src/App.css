@@ -12,7 +12,7 @@
 
 .top-section-wrapper {
   height: 100vh;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 .header-logo {
