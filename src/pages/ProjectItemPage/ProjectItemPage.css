@@ -1,0 +1,80 @@
+.project-container {
+    overflow-x: hidden;
+}
+
+.top-section-avatar {
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+}
+
+.project-info {
+    padding: 100px 50px;
+    box-sizing: border-box;
+}
+
+.project-info-name {
+    margin-bottom: 20px;
+    font-size: 33pt;
+    font-weight: 500;
+}
+
+.project-info-slogan {
+    margin-bottom: 20px;
+    font-size: 20pt;
+    font-weight: 400;
+}
+
+.project-info-description {
+    margin-bottom: 20px;
+    font-size: 16pt;
+    font-weight: 300;
+    line-height: 1.3;
+}
+
+.project-info-website-link {
+    opacity: .5;
+    transition: .4s;
+}
+
+.project-info-website-link:hover {
+    opacity: 1;
+}
+
+.project-item-image img {
+    width: 100%;
+}
+
+.project-feedback-container {
+    padding: 100px 50px;
+}
+
+.project-feedback-wrapper {
+    position: relative;
+}
+
+.project-feedback-title {
+    margin-bottom: 15px;
+    font-size: 20pt;
+    font-weight: 400;
+}
+
+.project-feedback {
+    margin-bottom: 5px;
+    font-size: 16pt;
+    font-weight: 300;
+}
+
+.project-feedback-author {
+    font-size: 16pt;
+    text-align: right;
+    font-weight: 300;
+}
+
+.project-feedback-quote {
+    position: absolute;
+    font-weight: 700;
+    font-size: 150px;
+    transform: translate(-30%, -30%);
+    opacity: .1;
+}
