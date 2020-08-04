@@ -1,11 +1,12 @@
 .project-container {
-    overflow-x: hidden;
+
 }
 
 .top-section-avatar {
     width: 100vw;
     height: 100vh;
     background-size: cover;
+    background-position: center center;
 }
 
 .project-info {
@@ -45,6 +46,10 @@
     width: 100%;
 }
 
+.project-item-image {
+    margin: 25px 0;
+}
+
 .project-feedback-container {
     padding: 100px 50px;
 }
@@ -60,7 +65,7 @@
 }
 
 .project-feedback {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     font-size: 16pt;
     font-weight: 300;
 }
@@ -75,6 +80,6 @@
     position: absolute;
     font-weight: 700;
     font-size: 150px;
-    transform: translate(-30%, -30%);
+    transform: translate(-50%, -50%);
     opacity: .1;
 }

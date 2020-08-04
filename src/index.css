@@ -49,6 +49,7 @@ body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
     background: #000000;
+    overflow-x: hidden;
     color: #fff;
     -webkit-font-smoothing: antialiased;
 }
