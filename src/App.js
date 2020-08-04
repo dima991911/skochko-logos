@@ -9,9 +9,8 @@ import { ProjectItemComponent } from "./compnents/ProjectItemComponent/ProjectIt
 import { works } from "./images/works";
 
 const topSectionTitles = [
-    'We do amazing',
-    'things with amazing',
-    'People',
+    'Welcome to my',
+    'Portfolio',
 ];
 
 function App() {
