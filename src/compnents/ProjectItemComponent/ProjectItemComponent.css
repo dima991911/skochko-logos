@@ -38,9 +38,10 @@
 }
 
 .bg-avatar-container {
-    overflow: hidden;
     height: 80vh;
     max-height: 500px;
+    overflow: hidden;
+    cursor: pointer;
 }
 
 .custom-class {

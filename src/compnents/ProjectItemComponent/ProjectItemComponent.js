@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from "react";
 import './ProjectItemComponent.css';
 import { Parallax } from "react-scroll-parallax";
 
-export function ProjectItemComponent({ work }) {
+export function ProjectItemComponent({ work, history, id }) {
     const parallaxEl = useRef(null);
 
     useEffect(() => {
@@ -25,9 +25,16 @@ export function ProjectItemComponent({ work }) {
         }
     }, []);
 
+    const navigateToProjectPresentation = () => {
+        history.push('/projects/' + id);
+    };
+
     return (
         <div className="column">
-            <div className="bg-avatar-container">
+            <div
+                className="bg-avatar-container"
+                onClick={navigateToProjectPresentation}
+            >
                 <Parallax
                     className="custom-class"
                     y={['-200px', '200px']}
