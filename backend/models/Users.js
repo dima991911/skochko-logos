@@ -28,7 +28,7 @@ UsersSchema.methods.generateJWT = function () {
 };
 
 UsersSchema.methods.getJwtToken = function () {
-    return {token: this.generateJWT()};
+    return this.generateJWT();
 };
 
 mongoose.model('Users', UsersSchema);
