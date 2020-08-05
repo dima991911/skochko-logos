@@ -7,11 +7,12 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
+import { SmoothScroll } from "./helpers/helpers";
 import ScrollToTopComponent from "./compnents/ScrollToTopComponent/ScrollToTopComponent";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProjectItemPage from "./pages/ProjectItemPage/ProjectItemPage";
-import {SmoothScroll} from "./helpers/helpers";
+import LoginPage from "./pages/LoginPage/LoginPage";
 
 function App() {
     useEffect(() => {
@@ -39,6 +40,7 @@ function App() {
                 <Switch>
                     <Route exact path="/" component={HomePage} />
                     <Route path="/projects/:id" component={ProjectItemPage} />
+                    <Route path="/login" component={LoginPage} />
                 </Switch>
             </Router>
         </ParallaxProvider>
