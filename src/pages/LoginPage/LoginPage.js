@@ -2,17 +2,15 @@ import React from 'react';
 import { Formik } from 'formik';
 import './LoginPage.css';
 
-export default function LoginPage() {
+import { UserService } from "../../services/UserService";
+
+export default function LoginPage({ history }) {
 
     const validate = (values) => {
         const errors = {};
 
-        if (!values.email) {
-            errors.email = 'Required';
-        } else if (
-            !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-        ) {
-            errors.email = 'Invalid email address';
+        if (!values.login) {
+            errors.login = 'Required';
         }
 
         if (!values.password) {
@@ -23,13 +21,20 @@ export default function LoginPage() {
     };
 
     const login = (values) => {
-        console.log(values);
+        UserService.login(values)
+            .then(res => {
+                UserService.setToken(res.token);
+                history.push('/');
+            })
+            .catch(err => {
+                alert(`${err.message}. Please try again`);
+            });
     };
 
     return (
         <div className="form-container">
             <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ login: '', password: '' }}
                 validate={validate}
                 onSubmit={login}
             >
@@ -37,16 +42,16 @@ export default function LoginPage() {
                     <form onSubmit={handleSubmit} className="form">
                         <div className="form-group">
                             <input
-                                type="email"
-                                name="email"
-                                placeholder="email"
+                                type="login"
+                                name="login"
+                                placeholder="login"
                                 className="form-control"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                value={values.email}
+                                value={values.login}
                             />
-                            <div className="form-group-error" style={{ opacity: errors.email && touched.email ? 1 : 0 }}>
-                                {errors.email}
+                            <div className="form-group-error" style={{ opacity: errors.login && touched.login ? 1 : 0 }}>
+                                {errors.login}
                             </div>
                         </div>
                         <div className="form-group">

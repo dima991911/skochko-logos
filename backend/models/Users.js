@@ -21,7 +21,7 @@ UsersSchema.methods.generateJWT = function () {
     expirationDate.setDate(today.getDate() + 3600);
 
     return jwt.sign({
-        login: this.email,
+        login: this.login,
         _id: this._id,
         exp: parseInt(expirationDate.getTime() / 1000, 10),
     }, 'secret');
