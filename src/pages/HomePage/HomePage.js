@@ -14,15 +14,9 @@ function HomePage({ history }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
-        const initPage = () => {
+        setTimeout(() => {
             setAnimateTitle(true);
-        };
-
-        window.addEventListener('load', initPage);
-
-        return () => {
-            window.removeEventListener('load', initPage);
-        }
+        }, 1500);
     }, []);
 
     return (

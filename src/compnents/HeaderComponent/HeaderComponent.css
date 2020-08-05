@@ -32,3 +32,10 @@
 .header-link-item:hover {
     transform: scale(0.9);
 }
+
+@media (max-width: 500px) {
+    .header {
+        padding: 30px 25px;
+        box-sizing: border-box;
+    }
+}
