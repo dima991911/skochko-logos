@@ -1,9 +1,7 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import "./HomePage.css";
-import logo from '../../images/logo.png';
-import { commonIcons } from "../../images/icons";
 
-import { SmoothScroll } from "../../helpers/helpers";
+import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import { ProjectItemComponent } from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 import { works } from "../../images/works";
 
@@ -14,67 +12,17 @@ const topSectionTitles = [
 
 function HomePage({ history }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
-    const headerRef = useRef(null);
 
     useEffect(() => {
-        const scrollToTop = () => {
-            window.scrollTo(0 ,0);
-        };
-
-        const initPage = () => {
-            new SmoothScroll(document,110,16);
+        setTimeout(() => {
             setAnimateTitle(true);
-        };
-
-        const initScroll = () => {
-            const width = window.innerWidth;
-            const scrollY = window.scrollY;
-
-            if (width < 1300 && scrollY > 50) {
-                headerRef.current.style.opacity = 0;
-            } else {
-                headerRef.current.style.opacity = 1;
-            }
-        };
-
-        window.addEventListener('beforeunload', scrollToTop);
-        window.addEventListener('load', initPage);
-        window.addEventListener('scroll', initScroll);
-
-        return () => {
-            window.removeEventListener('beforeunload', scrollToTop);
-            window.removeEventListener('load', initPage);
-            window.removeEventListener('scroll', initScroll);
-        }
+        }, 1500);
     }, []);
 
     return (
         <div className="page">
             <div className="top-section-wrapper">
-                <header className="header" ref={headerRef}>
-                    <div className="header-logo">
-                        <img src={logo} alt="Logo" />
-                    </div>
-
-                    <div className="header-links">
-                        <a
-                            className="header-link-item"
-                            href="https://dribbble.com/skochko_design"
-                            rel="noopener noreferrer"
-                            target="_blank"
-                        >
-                            <img src={commonIcons.dribble} alt="dribble" />
-                        </a>
-                        <a
-                            className="header-link-item"
-                            href="mailto:info@skochko.net"
-                            title="info@skochko.net"
-                        >
-                            <img src={commonIcons.email} alt="email" />
-                        </a>
-                    </div>
-                </header>
-
+                <HeaderComponent />
                 <section className="top-section">
                     {canAnimateTitle && (
                         <h1>

@@ -1,53 +1,54 @@
 export function SmoothScroll(target, speed, smooth) {
     if (target === document)
-        target = (document.scrollingElement
+        this.target = (document.scrollingElement
             || document.documentElement
             || document.body.parentNode
             || document.body);
+    else this.target = target;
 
-    let moving = false;
-    let pos = target.scrollTop;
-    let frame = target === document.body
+    this.moving = false;
+    this.pos = this.target.scrollTop;
+    this.frame = this.target === document.body
     && document.documentElement
         ? document.documentElement
-        : target;
+        : this.target;
 
-    target.addEventListener('mousewheel', scrolled, { passive: false });
-    target.addEventListener('DOMMouseScroll', scrolled, { passive: false });
-
-    function scrolled(e) {
+    const scrolled = (e) => {
         e.preventDefault();
 
         let delta = normalizeWheelDelta(e);
 
-        pos += -delta * speed;
-        pos = Math.max(0, Math.min(pos, target.scrollHeight - frame.clientHeight));
+        this.pos += -delta * speed;
+        this.pos = Math.max(0, Math.min(this.pos, this.target.scrollHeight - this.frame.clientHeight));
+        if (!this.moving) update()
+    };
 
-        if (!moving) update()
-    }
+    this.target.addEventListener('scroll', scrolled, { passive: false });
+    this.target.addEventListener('mousewheel', scrolled, { passive: false });
+    this.target.addEventListener('DOMMouseScroll', scrolled, { passive: false });
 
     function normalizeWheelDelta(e) {
         if(e.detail) {
             if(e.wheelDelta)
-                return e.wheelDelta / e.detail / 40 * (e.detail>0 ? 1 : -1);
+                return e.wheelDelta / e.detail / 40 * (e.detail > 0 ? 1 : -1);
             else
                 return -e.detail / 3;
         } else
             return e.wheelDelta / 120;
     }
 
-    function update() {
-        moving = true;
+    const update = () => {
+        this.moving = true;
 
-        let delta = (pos - target.scrollTop) / smooth;
+        let delta = (this.pos - this.target.scrollTop) / smooth;
 
-        target.scrollTop += delta;
+        this.target.scrollTop += delta;
 
-        if (Math.abs(delta) > 0.5)
+        if (Math.abs(delta) > 0.7)
             requestFrame(update);
         else
-            moving = false;
-    }
+            this.moving = false;
+    };
 
     let requestFrame = function() {
         return (
@@ -61,4 +62,8 @@ export function SmoothScroll(target, speed, smooth) {
             }
         );
     }();
+
+    this.setScrollPos = (pos) => {
+        this.pos = pos;
+    };
 }
