@@ -1,41 +1,6 @@
-.header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 50px;
-    box-sizing: border-box;
-    transition: .3s;
-}
-
 .top-section-wrapper {
     height: 100vh;
     overflow: hidden;
-}
-
-.header-logo {
-    font-size: 24px;
-}
-
-.header-links {
-    display: flex;
-    justify-content: flex-end;
-    font-size: 16px;
-}
-
-.header-link-item {
-    margin-left: 10px;
-    transition: .25s ease-out;
-}
-
-.header-link-item img {
-    width: 20px;
-}
-
-.header-link-item:hover {
-    transform: scale(0.9);
 }
 
 .top-section {
