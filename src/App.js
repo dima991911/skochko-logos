@@ -1,4 +1,5 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
+import { Provider } from 'react-redux';
 import { ParallaxProvider } from 'react-scroll-parallax';
 import {
     BrowserRouter as Router,
@@ -7,8 +8,11 @@ import {
 } from "react-router-dom";
 import "./App.css";
 
+import store from "./store";
+
 import { SmoothScroll } from "./helpers/helpers";
 import ScrollToTopComponent from "./compnents/ScrollToTopComponent/ScrollToTopComponent";
+import { UserService } from "./services/UserService";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProjectItemPage from "./pages/ProjectItemPage/ProjectItemPage";
@@ -19,6 +23,8 @@ function App() {
         const scrollToTop = () => {
             window.scrollTo(0 ,0);
         };
+
+        UserService.checkToken();
 
         const initPage = () => {
             window.SmoothScroll = new SmoothScroll(document,110,16);
@@ -34,16 +40,19 @@ function App() {
     }, []);
 
     return (
-        <ParallaxProvider>
-            <Router>
-                <ScrollToTopComponent />
-                <Switch>
-                    <Route exact path="/" component={HomePage} />
-                    <Route path="/projects/:id" component={ProjectItemPage} />
-                    <Route path="/login" component={LoginPage} />
-                </Switch>
-            </Router>
-        </ParallaxProvider>
+        <Provider store={store}>
+            <ParallaxProvider>
+                <Router>
+                    <ScrollToTopComponent />
+
+                    <Switch>
+                        <Route exact path="/" component={HomePage} />
+                        <Route path="/projects/:id" component={ProjectItemPage} />
+                        <Route path="/login" component={LoginPage} />
+                    </Switch>
+                </Router>
+            </ParallaxProvider>
+        </Provider>
     );
 }
 

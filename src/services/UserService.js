@@ -1,6 +1,8 @@
 import { config } from "../config";
 import { backendRequestsErrorHandler } from "../helpers/helpers";
 
+const jwt = require('jsonwebtoken');
+
 class UserService {
     static async login(user) {
         return fetch(`${config.api}login`, {
@@ -20,6 +22,18 @@ class UserService {
 
     static setToken(token) {
         localStorage.setItem('token', token);
+    }
+
+    static checkToken() {
+        const token = UserService.getToken();
+
+        if (token) {
+            jwt.verify(token, config.jwt.secret, (err) => {
+                if (err) {
+                    UserService.removeToken();
+                }
+            });
+        }
     }
 
     static getToken() {
