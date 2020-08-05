@@ -17,12 +17,7 @@ function HomePage({ history }) {
     const headerRef = useRef(null);
 
     useEffect(() => {
-        const scrollToTop = () => {
-            window.scrollTo(0 ,0);
-        };
-
         const initPage = () => {
-            new SmoothScroll(document,110,16);
             setAnimateTitle(true);
         };
 
@@ -37,12 +32,10 @@ function HomePage({ history }) {
             }
         };
 
-        window.addEventListener('beforeunload', scrollToTop);
         window.addEventListener('load', initPage);
         window.addEventListener('scroll', initScroll);
 
         return () => {
-            window.removeEventListener('beforeunload', scrollToTop);
             window.removeEventListener('load', initPage);
             window.removeEventListener('scroll', initScroll);
         }

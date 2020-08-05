@@ -10,7 +10,7 @@ export default function ProjectItemPage() {
 
         return images.map((img, index) => (
             <div className="project-item-image" key={index}>
-                <img src={img} alt="presentation image" />
+                <img src={img} alt="Presentation" />
             </div>
         ))
     };
@@ -38,7 +38,7 @@ export default function ProjectItemPage() {
             </div>
 
             <div className="project-item-image">
-                <img src={project.lastImg} alt="Project image" />
+                <img src={project.lastImg} alt="Presentation" />
             </div>
         </div>
     )
