@@ -83,3 +83,19 @@
     transform: translate(-50%, -50%);
     opacity: .1;
 }
+
+.fadeIn {
+    animation: animateImagesOfProject ease-out;
+}
+
+@keyframes animateImagesOfProject {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

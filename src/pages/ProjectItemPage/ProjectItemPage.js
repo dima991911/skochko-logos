@@ -1,4 +1,5 @@
 import React from 'react';
+import ScrollAnimation from 'react-animate-on-scroll';
 import './ProjectItemPage.css';
 
 import { project } from '../../images/works/beerd-project';
@@ -9,9 +10,11 @@ export default function ProjectItemPage() {
         const { images } = project;
 
         return images.map((img, index) => (
-            <div className="project-item-image" key={index}>
-                <img src={img} alt="Presentation" />
-            </div>
+                <div className="project-item-image" key={index}>
+                    <ScrollAnimation animateIn="fadeIn" duration={0.3} animateOnce={true}>
+                        <img src={img} alt="Presentation" />
+                    </ScrollAnimation>
+                </div>
         ))
     };
 
