@@ -28,15 +28,13 @@
 }
 
 .works {
+    display: flex;
+    flex-wrap: wrap;
     width: 100%;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 10vw;
     box-sizing: border-box;
-}
-
-.columns {
-    display: flex;
 }
 
 @keyframes titleAnimate {
@@ -79,10 +77,7 @@
     }
 
     .works {
-        padding: 0 25px;
-    }
-
-    .columns {
         flex-direction: column;
+        padding: 0 25px;
     }
 }

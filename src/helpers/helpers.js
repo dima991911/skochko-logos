@@ -1,4 +1,4 @@
-export function SmoothScroll(target, speed, smooth) {
+function SmoothScroll(target, speed, smooth) {
     if (target === document)
         this.target = (document.scrollingElement
             || document.documentElement
@@ -67,3 +67,19 @@ export function SmoothScroll(target, speed, smooth) {
         this.pos = pos;
     };
 }
+
+function backendRequestsErrorHandler(response) {
+    return response.json()
+        .then(err => {
+            throw new Error(err.error);
+        });
+}
+
+const toBase64 = file => new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+});
+
+export { SmoothScroll, backendRequestsErrorHandler, toBase64 };

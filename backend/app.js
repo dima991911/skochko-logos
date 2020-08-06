@@ -29,8 +29,6 @@ mongoose.set('useCreateIndex', true);
 
 // Models for db
 require('./models/Users');
-require('./models/ProjectSamples');
-require('./models/Projects');
 
 app.use(require('./routes'));
 

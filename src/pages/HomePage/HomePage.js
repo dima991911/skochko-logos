@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import "./HomePage.css";
 
+import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
+
+import { updateNewProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import { ProjectItemComponent } from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 import { works } from "../../images/works";
@@ -10,7 +14,7 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ history }) {
+function HomePage({ history, isAuth, newProject, updateNewProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -18,6 +22,24 @@ function HomePage({ history }) {
             setAnimateTitle(true);
         }, 1500);
     }, []);
+
+    const renderProjects = () => {
+        // TODO: remove flat, refactor
+        const worksFlat = works.flat();
+
+        return worksFlat.map((work, i) => (
+            <ProjectItemComponent
+                work={work}
+                history={history}
+                id={i} // TODO: change id to slug
+                key={i}
+            />
+        ))
+    };
+
+    const handleUpdateNewProject = (project) => {
+        updateNewProject(project);
+    };
 
     return (
         <div className="page">
@@ -37,21 +59,25 @@ function HomePage({ history }) {
             </div>
 
             <div className="works">
-                {works.map((column, index) => (
-                    <div className="columns" key={index}>
-                        {column.map((work, i) => (
-                            <ProjectItemComponent
-                                work={work}
-                                history={history}
-                                id={`${index}${i}`}
-                                key={i}
-                            />
-                        ))}
-                    </div>
-                ))}
+                {renderProjects()}
+
+                {isAuth &&
+                        <AddProjectComponent newProject={newProject} updateNewProject={handleUpdateNewProject} />
+                }
             </div>
         </div>
     );
 }
 
-export default HomePage;
+const mapStateToProps = (state) => {
+    return {
+        isAuth: state.isAuth,
+        newProject: state.newProject,
+    };
+};
+
+const mapDispatchToProps = {
+    updateNewProject,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
