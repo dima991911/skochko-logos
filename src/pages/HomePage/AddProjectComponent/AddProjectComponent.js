@@ -36,12 +36,6 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
                     alt="Plus icon"
                     className="add-project-plus-icon"
                 />
-                <input
-                    type="file"
-                    ref={inputEl}
-                    className="input-file"
-                    onChange={changePreviewImage}
-                />
             </div>
         )
     };
@@ -49,6 +43,11 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
     const renderPreviewImg = () => {
         return (
             <div className="preview-img-wrapper">
+                <div className="preview-actions-container">
+                    <div className="preview-action" onClick={choosePreviewPhoto}>Edit Preview</div>
+                    <div className="preview-action">Presentation</div>
+                </div>
+
                 <ParallaxPreviewComponent imgUrl={previewImg} />
             </div>
         )
@@ -57,6 +56,13 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
     return (
         <div className="column">
             {!previewImg ? renderChooseProjectContainer() : renderPreviewImg()}
+
+            <input
+                type="file"
+                ref={inputEl}
+                className="input-file"
+                onChange={changePreviewImage}
+            />
         </div>
     )
 }
