@@ -6,7 +6,7 @@ import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 
 import { updateNewProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
-import { ProjectItemComponent } from "../../compnents/ProjectItemComponent/ProjectItemComponent";
+import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 import { works } from "../../images/works";
 
 const topSectionTitles = [
@@ -30,7 +30,6 @@ function HomePage({ history, isAuth, newProject, updateNewProject }) {
         return worksFlat.map((work, i) => (
             <ProjectItemComponent
                 work={work}
-                history={history}
                 id={i} // TODO: change id to slug
                 key={i}
             />

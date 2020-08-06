@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
+import { withRouter } from "react-router-dom";
 import "./AddProjectComponent.css";
 
 import { commonIcons } from "../../../images/icons";
 import { toBase64 } from "../../../helpers/helpers";
 import ParallaxPreviewComponent from "../../../compnents/ParallaxPreviewComponent/ParallaxPreviewComponent";
 
-export default function AddProjectComponent({ newProject, updateNewProject }) {
+function AddProjectComponent({ newProject, updateNewProject, history }) {
     const [previewImg, setPreviewImg] = useState(null);
     const inputEl = useRef(null);
     const { preview } = newProject;
@@ -28,6 +29,10 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
         inputEl.current.value = '';
     };
 
+    const navigateToCreatePresentationPage = () => {
+        history.push('/project/create');
+    };
+
     const renderChooseProjectContainer = () => {
         return (
             <div className="add-project" onClick={choosePreviewPhoto}>
@@ -45,7 +50,7 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
             <div className="preview-img-wrapper">
                 <div className="preview-actions-container">
                     <div className="preview-action" onClick={choosePreviewPhoto}>Edit Preview</div>
-                    <div className="preview-action">Presentation</div>
+                    <div className="preview-action" onClick={navigateToCreatePresentationPage}>Presentation</div>
                 </div>
 
                 <ParallaxPreviewComponent imgUrl={previewImg} />
@@ -66,3 +71,5 @@ export default function AddProjectComponent({ newProject, updateNewProject }) {
         </div>
     )
 }
+
+export default withRouter(AddProjectComponent);

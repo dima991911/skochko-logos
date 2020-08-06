@@ -12,10 +12,12 @@ import store from "./store";
 
 import { SmoothScroll } from "./helpers/helpers";
 import ScrollToTopComponent from "./compnents/ScrollToTopComponent/ScrollToTopComponent";
+import PrivateRoute from "./compnents/PrivateRouteComponent/PrivateRouteComponent";
 
 import HomePage from "./pages/HomePage/HomePage";
 import ProjectItemPage from "./pages/ProjectItemPage/ProjectItemPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
+import CreateProjectPresentationPage from "./pages/CreateProjectPresentationPage/CreateProjectPresentationPage";
 
 function App() {
     useEffect(() => {
@@ -46,6 +48,9 @@ function App() {
                         <Route exact path="/" component={HomePage} />
                         <Route path="/projects/:id" component={ProjectItemPage} />
                         <Route path="/login" component={LoginPage} />
+                        <PrivateRoute path="/project/create">
+                            <CreateProjectPresentationPage />
+                        </PrivateRoute>
                     </Switch>
                 </Router>
             </ParallaxProvider>
