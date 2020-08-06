@@ -1,10 +1,12 @@
 import React from 'react';
+import { connect } from "react-redux";
 import { Formik } from 'formik';
 import './LoginPage.css';
 
+import { updateUserAuth } from "../../store/actions";
 import { UserService } from "../../services/UserService";
 
-export default function LoginPage({ history }) {
+function LoginPage({ history, updateUserAuth }) {
 
     const validate = (values) => {
         const errors = {};
@@ -24,6 +26,7 @@ export default function LoginPage({ history }) {
         UserService.login(values)
             .then(res => {
                 UserService.setToken(res.token);
+                updateUserAuth(true);
                 history.push('/');
             })
             .catch(err => {
@@ -81,3 +84,9 @@ export default function LoginPage({ history }) {
         </div>
     )
 }
+
+const mapDispatchToProps = {
+    updateUserAuth,
+};
+
+export default connect(null, mapDispatchToProps)(LoginPage);

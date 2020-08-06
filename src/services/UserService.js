@@ -28,10 +28,12 @@ class UserService {
         const token = UserService.getToken();
 
         if (token) {
-            jwt.verify(token, config.jwt.secret, (err) => {
+            return jwt.verify(token, config.jwt.secret, (err) => {
                 if (err) {
                     UserService.removeToken();
+                    return false;
                 }
+                return true;
             });
         }
     }

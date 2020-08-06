@@ -1,0 +1,32 @@
+.preview-img-wrapper {
+    margin-bottom: 100px;
+}
+
+.add-project {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: rgba(255, 255, 255, .05);
+    overflow: hidden;
+    transition: .3s;
+    cursor: pointer;
+}
+
+.add-project:hover {
+    background: rgba(255, 255, 255, .08);
+}
+
+.add-project:hover .add-project-plus-icon {
+    width: 20%;
+}
+
+.add-project-plus-icon {
+    width: 10%;
+    transition: .15s ease-out;
+}
+
+.input-file {
+    display: none;
+}
