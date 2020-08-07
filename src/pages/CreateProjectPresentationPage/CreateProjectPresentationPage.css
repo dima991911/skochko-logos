@@ -1,0 +1,56 @@
+.page-container {
+    position: relative;
+}
+
+.input-file {
+    display: none;
+}
+
+.panel-control {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 10px 5px;
+    background: black;
+    border-top: 2px solid gray;
+    transform: translateY(100%);
+    box-sizing: border-box;
+    transition: .3s ease-out;
+    z-index: 1;
+}
+
+.panel-control-show-icon {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: -1px;
+    background: black;
+    border: 2px solid gray;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    box-sizing: border-box;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.panel-control:hover {
+    transform: translateY(0);
+}
+
+.top-section-choose-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-section-choose-image img {
+    width: 10%;
+    cursor: pointer;
+}

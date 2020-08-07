@@ -10,6 +10,7 @@ const defaultState = {
     projects: [],
     newProject: {
         preview: null,
+        topSectionImg: null,
     },
 };
 

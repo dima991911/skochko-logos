@@ -21,6 +21,7 @@ export default function ProjectItemPage() {
     return (
         <div className="project-container" style={{ backgroundColor: project.backgroundColor }}>
             <div className="top-section-avatar" style={{ backgroundImage: `url('${project.previewImg}')` }} />
+
             <div className="project-info">
                 <h1 className="project-info-name">{project.name}</h1>
                 <h2 className="project-info-slogan">{project.slogan}</h2>

@@ -14,7 +14,7 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ history, isAuth, newProject, updateNewProject }) {
+function HomePage({ isAuth, newProject, updateNewProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {

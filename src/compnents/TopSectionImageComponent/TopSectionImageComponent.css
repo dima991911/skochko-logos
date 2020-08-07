@@ -1,0 +1,45 @@
+.top-section-avatar {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    background-position: center center;
+}
+
+.actions-container {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50px;
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.3);
+    transition: .3s ease-out;
+    cursor: pointer;
+}
+
+.actions-container img {
+    width: 22px;
+}
+
+.actions-container:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
+}
+
+.top-section-choose-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-section-choose-image img {
+    width: 10%;
+    cursor: pointer;
+}
