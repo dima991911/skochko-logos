@@ -1,0 +1,30 @@
+.project-info {
+    padding: 100px 50px;
+    box-sizing: border-box;
+}
+
+.project-info-name {
+    position: relative;
+    margin-bottom: 20px;
+    font-size: 33pt;
+    font-weight: 500;
+}
+
+.project-info-slogan {
+    margin-bottom: 20px;
+    font-size: 20pt;
+    font-weight: 400;
+}
+
+.project-info-description {
+    margin-bottom: 20px;
+    font-size: 16pt;
+    font-weight: 300;
+    line-height: 1.3;
+}
+
+.project-info-website-link {
+    opacity: .5;
+    transition: .4s;
+    cursor: pointer;
+}

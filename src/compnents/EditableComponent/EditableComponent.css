@@ -1,0 +1,75 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .8);
+}
+
+.modal {
+    width: 30%;
+    padding: 20px;
+    background: white;
+    border-radius: 2px;
+}
+
+.modal:focus {
+    outline: none;
+}
+
+.item-wrapper {
+    position: relative;
+}
+
+.edit-icon {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 20px;
+    height: 20px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 20px;
+    transform: translate(-80%, -80%) scale(0);
+    transition: .2s ease-out;
+    cursor: pointer;
+}
+
+.item-wrapper:hover .edit-icon {
+    transform: translate(-80%, -80%) scale(1);
+}
+
+.edit-icon img {
+    width: 10px;
+}
+
+.modal-input {
+    display: block;
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px 0;
+    font-size: 18px;
+    background: none;
+    border: none;
+    border-bottom: 1px solid gray;
+    box-sizing: border-box;
+}
+
+.modal-actions-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modal-action {
+    flex-basis: 48%;
+    padding: 10px 0;
+    font-size: 14px;
+    background: #aa01ff;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

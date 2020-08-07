@@ -4,6 +4,7 @@ import './CreateProjectPresentationPage.css';
 
 import { updateNewProject } from "../../store/actions";
 import TopSectionImageComponent from "../../compnents/TopSectionImageComponent/TopSectionImageComponent";
+import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 
 function CreateProjectPresentationPage({ newProject, updateNewProject }) {
 
@@ -12,6 +13,10 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
     const handleChangeTopSectionImg = (img) => {
         const newProjectUpdated = { ...newProject, topSectionImg: img };
         updateNewProject(newProjectUpdated);
+    };
+
+    const handleUpdateProjectInfo = (project) => {
+        updateNewProject(project);
     };
 
     return (
@@ -24,6 +29,11 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
             <TopSectionImageComponent
                 image={topSectionImg}
                 changeImage={handleChangeTopSectionImg}
+            />
+
+            <ProjectInfoComponent
+                project={newProject}
+                updateProject={handleUpdateProjectInfo}
             />
         </div>
     )

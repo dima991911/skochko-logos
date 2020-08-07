@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Provider } from 'react-redux';
 import { ParallaxProvider } from 'react-scroll-parallax';
+import Modal from 'react-modal';
 import {
     BrowserRouter as Router,
     Switch,
@@ -18,6 +19,8 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProjectItemPage from "./pages/ProjectItemPage/ProjectItemPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import CreateProjectPresentationPage from "./pages/CreateProjectPresentationPage/CreateProjectPresentationPage";
+
+Modal.setAppElement('#root');
 
 function App() {
     useEffect(() => {

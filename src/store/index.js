@@ -11,6 +11,10 @@ const defaultState = {
     newProject: {
         preview: null,
         topSectionImg: null,
+        name: null,
+        slogan: null,
+        description: null,
+        websiteLink: null,
     },
 };
 
