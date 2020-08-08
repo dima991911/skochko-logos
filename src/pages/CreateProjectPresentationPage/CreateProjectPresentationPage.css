@@ -63,3 +63,12 @@
 .project-feedback-info-wrapper > div:nth-child(2) {
     align-self: flex-end;
 }
+
+.panel-control-color-container {
+    display: flex;
+    align-items: center;
+}
+
+.panel-control-color-item {
+    margin-right: 20px;
+}

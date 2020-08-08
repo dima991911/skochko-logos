@@ -7,10 +7,11 @@ import SectionImageComponent from "../../compnents/SectionImageComponent/Section
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 import PresentationImageListComponent from "../../compnents/PresentationImageListComponent/PresentationImageListComponent";
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
+import ColorPickerComponent from "../../compnents/ColorPickerComponent/ColorPickerComponent";
 
 function CreateProjectPresentationPage({ newProject, updateNewProject }) {
 
-    const { topSectionImg, images, bottomSectionImg } = newProject;
+    const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor } = newProject;
 
     const handleChangeTopSectionImg = (topSectionImg) => {
         const newProjectUpdated = { ...newProject, topSectionImg };
@@ -37,13 +38,18 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
         updateNewProject(updatedProject);
     };
 
-    return (
-        <div className="page-container">
-            <div className="panel-control">
-                <div className="panel-control-show-icon" />
-                <p>some new</p>
-            </div>
+    const handleChangeBackgroundColor = (backgroundColor) => {
+        const updatedProject = { ...newProject, backgroundColor };
+        updateNewProject(updatedProject);
+    };
 
+    const handleChangeTextColor = (textColor) => {
+        const updatedProject = { ...newProject, textColor };
+        updateNewProject(updatedProject);
+    };
+
+    return (
+        <div className="page-container" style={{ backgroundColor: backgroundColor, color: textColor }}>
             <SectionImageComponent
                 image={topSectionImg}
                 changeImage={handleChangeTopSectionImg}
@@ -71,6 +77,26 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
                 changeImage={handleChangeBottomSectionImg}
             />
 
+            <div className="panel-control">
+                <div className="panel-control-show-icon" />
+
+                <div className="panel-control-color-container">
+                    <div className="panel-control-color-item">
+                        <ColorPickerComponent
+                            title="Background"
+                            color={backgroundColor}
+                            onChangeColor={handleChangeBackgroundColor}
+                        />
+                    </div>
+                    <div className="panel-control-color-item">
+                        <ColorPickerComponent
+                            title="Text color"
+                            color={textColor}
+                            onChangeColor={handleChangeTextColor}
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

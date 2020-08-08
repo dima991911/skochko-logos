@@ -9,6 +9,8 @@ const defaultState = {
     isAuth: isUserAuth,
     projects: [],
     newProject: {
+        backgroundColor: '#000',
+        textColor: '#fff',
         preview: null,
         topSectionImg: null,
         name: null,
