@@ -3,7 +3,7 @@ import './PresentationFeedbackComponent.css';
 
 import EditableComponent from "../EditableComponent/EditableComponent";
 
-export default function PresentationFeedbackComponent({ project, updateProject }) {
+export default function PresentationFeedbackComponent({ project, updateProject, isPreview }) {
 
     const { feedback, clientName } = project;
 
@@ -28,6 +28,7 @@ export default function PresentationFeedbackComponent({ project, updateProject }
                     <EditableComponent
                         value={feedback}
                         saveValue={handleChangeFeedback}
+                        isPreview={isPreview}
                     >
                         <p className="project-feedback">{feedback || 'Client feedback'}</p>
                     </EditableComponent>
@@ -35,6 +36,7 @@ export default function PresentationFeedbackComponent({ project, updateProject }
                     <EditableComponent
                         value={clientName}
                         saveValue={handleChangeClientName}
+                        isPreview={isPreview}
                     >
                         <p className="project-feedback-author">{clientName || 'Client Name'}</p>
                     </EditableComponent>

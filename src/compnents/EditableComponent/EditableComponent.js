@@ -4,7 +4,7 @@ import "./EditableComponent.css";
 
 import { commonIcons } from "../../images/icons";
 
-export default function EditableComponent({ children, value, saveValue }) {
+export default function EditableComponent({ children, value, saveValue, isPreview }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [inputValue, setInputValue] = useState(value || '');
 
@@ -28,9 +28,12 @@ export default function EditableComponent({ children, value, saveValue }) {
     return (
         <>
             <div className="item-wrapper">
-                <div className="edit-icon">
-                    <img src={commonIcons.edit} alt="edit" onClick={showModal} />
-                </div>
+                {
+                    !isPreview &&
+                        <div className="edit-icon">
+                            <img src={commonIcons.edit} alt="edit" onClick={showModal} />
+                        </div>
+                }
 
                 {children}
             </div>

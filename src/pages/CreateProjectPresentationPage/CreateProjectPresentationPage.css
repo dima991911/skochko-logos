@@ -10,8 +10,11 @@
     position: fixed;
     left: 0;
     bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    padding: 10px 5px;
+    padding: 20px 30px;
     background: black;
     border-top: 2px solid gray;
     transform: translateY(100%);
@@ -66,9 +69,38 @@
 
 .panel-control-color-container {
     display: flex;
+    flex-basis: 40%;
     align-items: center;
 }
 
 .panel-control-color-item {
     margin-right: 20px;
+}
+
+.preview-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 40%;
+    align-items: center;
+}
+
+.preview-container input {
+    margin-left: 15px;
+}
+
+.save-button-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.save-button {
+    padding: 10px 30px;
+    background: #7299ff;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
 }

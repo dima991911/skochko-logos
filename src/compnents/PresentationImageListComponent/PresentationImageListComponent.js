@@ -5,7 +5,7 @@ import ScrollAnimation from "react-animate-on-scroll";
 import { commonIcons } from "../../images/icons";
 import PresentationImageItem from "./PresentationImageItem/PresentationImageItem";
 
-export default function PresentationImageListComponent({ images, addImage, removeImage }) {
+export default function PresentationImageListComponent({ images, addImage, removeImage, isPreview }) {
     const inputEl = useRef(null);
 
     const chooseImage = () => {
@@ -29,9 +29,13 @@ export default function PresentationImageListComponent({ images, addImage, remov
 
                 <ScrollAnimation animateIn="fadeIn" duration={0.3}>
                     <>
-                        <div className="actions-container" onClick={() => removeImageFromPresentation(index)}>
-                            <img src={commonIcons.remove} alt="Edit" />
-                        </div>
+                        {
+                            !isPreview &&
+                                <div className="actions-container" onClick={() => removeImageFromPresentation(index)}>
+                                    <img src={commonIcons.remove} alt="Delete" />
+                                </div>
+                        }
+
                         <PresentationImageItem img={img} />
                     </>
                 </ScrollAnimation>
@@ -43,10 +47,13 @@ export default function PresentationImageListComponent({ images, addImage, remov
         <div className="presentation-images-container">
             {renderImages()}
 
-            <div className="presentation-images-add">
-                <img src={commonIcons.plus} alt="plus" onClick={chooseImage} />
-                <input type="file" ref={inputEl} onChange={addImageToPresentation} />
-            </div>
+            {
+                !isPreview &&
+                    <div className="presentation-images-add">
+                        <img src={commonIcons.plus} alt="plus" onClick={chooseImage} />
+                        <input type="file" ref={inputEl} onChange={addImageToPresentation} />
+                    </div>
+            }
         </div>
     )
 }

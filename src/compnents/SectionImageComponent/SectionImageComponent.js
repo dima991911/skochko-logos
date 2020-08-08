@@ -4,7 +4,7 @@ import './SectionImageComponent.css';
 import { toBase64 } from "../../helpers/helpers";
 import { commonIcons } from "../../images/icons";
 
-export default function SectionImageComponent({ image, changeImage, notFullHeight }) {
+export default function SectionImageComponent({ image, changeImage, notFullHeight, isPreview }) {
     const [imgInBase64, setImgInBase64] = useState(null);
     const inputEl = useRef(null);
 
@@ -37,11 +37,15 @@ export default function SectionImageComponent({ image, changeImage, notFullHeigh
         const classes = notFullHeight ? "image-wrapper" : "image-wrapper top-section-avatar";
         return (
             <div className={classes} style={{ backgroundImage: notFullHeight ? '' : `url('${imgInBase64}')` }}>
-                <div className="actions-container" onClick={chooseTopSectionImg}>
-                    <img src={commonIcons.edit} alt="Edit" />
-                </div>
 
-                {notFullHeight && <img src={imgInBase64} alt="preentation" />}
+                {
+                    !isPreview &&
+                        <div className="actions-container" onClick={chooseTopSectionImg}>
+                            <img src={commonIcons.edit} alt="Edit" />
+                        </div>
+                }
+
+                {notFullHeight && <img src={imgInBase64} alt="presentation" />}
             </div>
         );
     };

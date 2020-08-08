@@ -51,9 +51,7 @@ function App() {
                         <Route exact path="/" component={HomePage} />
                         <Route path="/projects/:id" component={ProjectItemPage} />
                         <Route path="/login" component={LoginPage} />
-                        <PrivateRoute path="/project/create">
-                            <CreateProjectPresentationPage />
-                        </PrivateRoute>
+                        <PrivateRoute path="/project/create" component={CreateProjectPresentationPage} />
                     </Switch>
                 </Router>
             </ParallaxProvider>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CreateProjectPresentationPage.css';
 
@@ -9,9 +9,29 @@ import PresentationImageListComponent from "../../compnents/PresentationImageLis
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 import ColorPickerComponent from "../../compnents/ColorPickerComponent/ColorPickerComponent";
 
-function CreateProjectPresentationPage({ newProject, updateNewProject }) {
+function CreateProjectPresentationPage({ newProject, updateNewProject, history }) {
+    const [isPreview, setIsPreview] = useState(false);
 
-    const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor } = newProject;
+    const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor, feedback, name, preview } = newProject;
+
+    useEffect(() => {
+        if (!preview) {
+            history.push('/');
+        }
+    }, [preview, history]);
+
+    const validatePresentation = () => {
+        if (!topSectionImg || !name) {
+            alert('You must have image in top section and project name');
+            return false;
+        }
+        return true;
+    };
+
+    const handleIsPreview = () => {
+        const isValidPresentation = validatePresentation();
+        if (isValidPresentation) setIsPreview(!isPreview);
+    };
 
     const handleChangeTopSectionImg = (topSectionImg) => {
         const newProjectUpdated = { ...newProject, topSectionImg };
@@ -48,34 +68,50 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
         updateNewProject(updatedProject);
     };
 
+    const handleSavePresentation = () => {
+        const isValidaPresentation = validatePresentation();
+        console.log(newProject, isValidaPresentation);
+    };
+
     return (
         <div className="page-container" style={{ backgroundColor: backgroundColor, color: textColor }}>
             <SectionImageComponent
                 image={topSectionImg}
                 changeImage={handleChangeTopSectionImg}
+                isPreview={isPreview}
             />
 
             <ProjectInfoComponent
                 project={newProject}
                 updateProject={handleUpdateProjectInfo}
+                isPreview={isPreview}
             />
 
             <PresentationImageListComponent
                 images={images}
                 addImage={handleAddImage}
                 removeImage={handleRemoveImage}
+                isPreview={isPreview}
             />
 
-            <PresentationFeedbackComponent
-                project={newProject}
-                updateProject={handleUpdateProjectInfo}
-            />
+            {
+                (isPreview && feedback) || !isPreview ?
+                    <PresentationFeedbackComponent
+                        project={newProject}
+                        updateProject={handleUpdateProjectInfo}
+                        isPreview={isPreview}
+                    /> : null
+            }
 
-            <SectionImageComponent
-                notFullHeight
-                image={bottomSectionImg}
-                changeImage={handleChangeBottomSectionImg}
-            />
+            {
+                (isPreview && bottomSectionImg) || !isPreview ?
+                    <SectionImageComponent
+                        notFullHeight
+                        image={bottomSectionImg}
+                        changeImage={handleChangeBottomSectionImg}
+                        isPreview={isPreview}
+                    /> : null
+            }
 
             <div className="panel-control">
                 <div className="panel-control-show-icon" />
@@ -95,6 +131,15 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
                             onChangeColor={handleChangeTextColor}
                         />
                     </div>
+                </div>
+
+                <div className="save-button-container">
+                    <button className="save-button" onClick={handleSavePresentation}>SAVE</button>
+                </div>
+
+                <div className="preview-container">
+                    Show Preview
+                    <input type="checkbox" value={isPreview} onClick={handleIsPreview} />
                 </div>
             </div>
         </div>
