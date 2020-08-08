@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import { withRouter } from "react-router-dom";
 import './ProjectItemComponent.css';
 
 import ParallaxPreviewComponent from "../ParallaxPreviewComponent/ParallaxPreviewComponent";
 
-export function ProjectItemComponent({ work, history, id }) {
+function ProjectItemComponent({ work, history, id }) {
     useEffect(() => {
         const scrollToTop = () => {
             window.scrollTo(0 ,0);
@@ -34,3 +35,5 @@ export function ProjectItemComponent({ work, history, id }) {
         </div>
     )
 }
+
+export default withRouter(ProjectItemComponent);

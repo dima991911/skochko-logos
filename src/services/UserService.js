@@ -1,5 +1,6 @@
 import { config } from "../config";
 import { backendRequestsErrorHandler } from "../helpers/helpers";
+import { updateUserAuth } from "../store/actions";
 
 const jwt = require('jsonwebtoken');
 
@@ -31,11 +32,15 @@ class UserService {
             return jwt.verify(token, config.jwt.secret, (err) => {
                 if (err) {
                     UserService.removeToken();
+                    updateUserAuth(false);
                     return false;
                 }
+                updateUserAuth(false);
                 return true;
             });
         }
+
+        return false;
     }
 
     static getToken() {

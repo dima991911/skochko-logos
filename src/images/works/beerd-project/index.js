@@ -18,6 +18,7 @@ const project = {
     clientName: 'Adam Smith',
     backgroundColor: 'black',
     textColor: 'white',
+    topSectionImg: '',
     previewImg: preview,
     lastImg: lastImg,
     images: [secondImg, thirdImg, fourthImg, fifthImg, sixthImg],

@@ -1,0 +1,106 @@
+.page-container {
+    position: relative;
+}
+
+.input-file {
+    display: none;
+}
+
+.panel-control {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 20px 30px;
+    background: black;
+    border-top: 2px solid gray;
+    transform: translateY(100%);
+    box-sizing: border-box;
+    transition: .3s ease-out;
+    z-index: 1;
+}
+
+.panel-control-show-icon {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: -1px;
+    background: black;
+    border: 2px solid gray;
+    border-right: none;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    box-sizing: border-box;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.panel-control:hover {
+    transform: translateY(0);
+}
+
+.top-section-choose-image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.top-section-choose-image img {
+    width: 10%;
+    cursor: pointer;
+}
+
+.project-feedback-info-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-feedback-info-wrapper > div:nth-child(2) {
+    align-self: flex-end;
+}
+
+.panel-control-color-container {
+    display: flex;
+    flex-basis: 40%;
+    align-items: center;
+}
+
+.panel-control-color-item {
+    margin-right: 20px;
+}
+
+.preview-container {
+    display: flex;
+    justify-content: flex-end;
+    flex-basis: 40%;
+    align-items: center;
+}
+
+.preview-container input {
+    margin-left: 15px;
+}
+
+.save-button-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.save-button {
+    padding: 10px 30px;
+    background: #7299ff;
+    color: white;
+    font-weight: 700;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}

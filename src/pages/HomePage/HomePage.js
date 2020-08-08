@@ -6,7 +6,7 @@ import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 
 import { updateNewProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
-import { ProjectItemComponent } from "../../compnents/ProjectItemComponent/ProjectItemComponent";
+import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 import { works } from "../../images/works";
 
 const topSectionTitles = [
@@ -14,7 +14,7 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ history, isAuth, newProject, updateNewProject }) {
+function HomePage({ isAuth, newProject, updateNewProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -30,7 +30,6 @@ function HomePage({ history, isAuth, newProject, updateNewProject }) {
         return worksFlat.map((work, i) => (
             <ProjectItemComponent
                 work={work}
-                history={history}
                 id={i} // TODO: change id to slug
                 key={i}
             />
