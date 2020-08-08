@@ -54,3 +54,12 @@
     width: 10%;
     cursor: pointer;
 }
+
+.project-feedback-info-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.project-feedback-info-wrapper > div:nth-child(2) {
+    align-self: flex-end;
+}

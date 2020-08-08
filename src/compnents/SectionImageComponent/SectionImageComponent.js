@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './TopSectionImageComponent.css';
+import './SectionImageComponent.css';
 
 import { toBase64 } from "../../helpers/helpers";
 import { commonIcons } from "../../images/icons";
 
-export default function TopSectionImageComponent({ image, changeImage }) {
+export default function SectionImageComponent({ image, changeImage, notFullHeight }) {
     const [imgInBase64, setImgInBase64] = useState(null);
     const inputEl = useRef(null);
 
@@ -34,11 +34,14 @@ export default function TopSectionImageComponent({ image, changeImage }) {
     };
 
     const renderTopSectionImg = () => {
+        const classes = notFullHeight ? "image-wrapper" : "image-wrapper top-section-avatar";
         return (
-            <div className="top-section-avatar" style={{ backgroundImage: `url('${imgInBase64}')` }}>
+            <div className={classes} style={{ backgroundImage: notFullHeight ? '' : `url('${imgInBase64}')` }}>
                 <div className="actions-container" onClick={chooseTopSectionImg}>
                     <img src={commonIcons.edit} alt="Edit" />
                 </div>
+
+                {notFullHeight && <img src={imgInBase64} alt="preentation" />}
             </div>
         );
     };

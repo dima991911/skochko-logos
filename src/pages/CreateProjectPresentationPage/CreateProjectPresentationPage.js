@@ -3,20 +3,38 @@ import { connect } from 'react-redux';
 import './CreateProjectPresentationPage.css';
 
 import { updateNewProject } from "../../store/actions";
-import TopSectionImageComponent from "../../compnents/TopSectionImageComponent/TopSectionImageComponent";
+import SectionImageComponent from "../../compnents/SectionImageComponent/SectionImageComponent";
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
+import PresentationImageListComponent from "../../compnents/PresentationImageListComponent/PresentationImageListComponent";
+import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 
 function CreateProjectPresentationPage({ newProject, updateNewProject }) {
 
-    const { topSectionImg } = newProject;
+    const { topSectionImg, images, bottomSectionImg } = newProject;
 
-    const handleChangeTopSectionImg = (img) => {
-        const newProjectUpdated = { ...newProject, topSectionImg: img };
+    const handleChangeTopSectionImg = (topSectionImg) => {
+        const newProjectUpdated = { ...newProject, topSectionImg };
+        updateNewProject(newProjectUpdated);
+    };
+
+    const handleChangeBottomSectionImg = (bottomSectionImg) => {
+        const newProjectUpdated = { ...newProject, bottomSectionImg };
         updateNewProject(newProjectUpdated);
     };
 
     const handleUpdateProjectInfo = (project) => {
         updateNewProject(project);
+    };
+
+    const handleAddImage = (img) => {
+        const updatedImages = [...images, img];
+        const updatedProject = { ...newProject, images: updatedImages };
+        updateNewProject(updatedProject);
+    };
+
+    const handleRemoveImage = (images) => {
+        const updatedProject = { ...newProject, images };
+        updateNewProject(updatedProject);
     };
 
     return (
@@ -26,7 +44,7 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
                 <p>some new</p>
             </div>
 
-            <TopSectionImageComponent
+            <SectionImageComponent
                 image={topSectionImg}
                 changeImage={handleChangeTopSectionImg}
             />
@@ -35,6 +53,24 @@ function CreateProjectPresentationPage({ newProject, updateNewProject }) {
                 project={newProject}
                 updateProject={handleUpdateProjectInfo}
             />
+
+            <PresentationImageListComponent
+                images={images}
+                addImage={handleAddImage}
+                removeImage={handleRemoveImage}
+            />
+
+            <PresentationFeedbackComponent
+                project={newProject}
+                updateProject={handleUpdateProjectInfo}
+            />
+
+            <SectionImageComponent
+                notFullHeight
+                image={bottomSectionImg}
+                changeImage={handleChangeBottomSectionImg}
+            />
+
         </div>
     )
 }

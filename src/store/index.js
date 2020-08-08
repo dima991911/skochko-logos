@@ -15,6 +15,10 @@ const defaultState = {
         slogan: null,
         description: null,
         websiteLink: null,
+        images: [],
+        feedback: null,
+        clientName: null,
+        bottomSectionImg: null,
     },
 };
 

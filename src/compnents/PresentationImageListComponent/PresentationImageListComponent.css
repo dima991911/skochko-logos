@@ -1,0 +1,20 @@
+.presentation-images-add {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+}
+
+.presentation-images-add img {
+    height: 80%;
+    cursor: pointer;
+}
+
+.presentation-images-add input {
+    display: none;
+}
+
+.images-list-img {
+    width: 100%;
+}
