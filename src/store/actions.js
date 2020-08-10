@@ -13,3 +13,11 @@ export const UserType = {
 export function updateUserAuth(isAuth) {
     return { type: UserType.UPDATE_USER_AUTH, isAuth };
 }
+
+export const ProjectType = {
+    CREATE_PROJECT: 'CREATE_PROJECT',
+};
+
+export function createProject(project) {
+    return { type: ProjectType.CREATE_PROJECT, project };
+}

@@ -1,33 +1,23 @@
 import { createStore } from "redux";
 import { UserService } from "../services/UserService";
 
-import { newProjectReducer, userReducer } from "./reducers";
+import { newProjectReducer, userReducer, projectReducer } from "./reducers";
+
+import { newProjectInit } from "../helpers/helpers";
 
 const isUserAuth = UserService.checkToken();
 
 const defaultState = {
     isAuth: isUserAuth,
     projects: [],
-    newProject: {
-        backgroundColor: '#000',
-        textColor: '#fff',
-        preview: null,
-        topSectionImg: null,
-        name: null,
-        slogan: null,
-        description: null,
-        websiteLink: null,
-        images: [],
-        feedback: null,
-        clientName: null,
-        bottomSectionImg: null,
-    },
+    newProject: { ...newProjectInit },
 };
 
 function reducers(state = defaultState, action) {
     return {
         newProject: newProjectReducer(state.newProject, action),
         isAuth: userReducer(state.isAuth, action),
+        projects: projectReducer(state.projects, action),
     }
 }
 

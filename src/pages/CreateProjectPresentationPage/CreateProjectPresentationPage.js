@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CreateProjectPresentationPage.css';
 
-import { updateNewProject } from "../../store/actions";
+import { updateNewProject, createProject } from "../../store/actions";
+import { ProjectService } from "../../services/ProjectService";
+import { newProjectInit } from "../../helpers/helpers";
+
 import SectionImageComponent from "../../compnents/SectionImageComponent/SectionImageComponent";
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 import PresentationImageListComponent from "../../compnents/PresentationImageListComponent/PresentationImageListComponent";
@@ -70,7 +73,32 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, history }
 
     const handleSavePresentation = () => {
         const isValidaPresentation = validatePresentation();
-        console.log(newProject, isValidaPresentation);
+        const fd = generateFormData();
+
+        if (isValidaPresentation) {
+            ProjectService.createProject(fd)
+                .then(project => {
+                    createProject(project);
+                    updateNewProject({ ...newProjectInit });
+                    history.push('/');
+                });
+        }
+    };
+
+    const generateFormData = () => {
+        const fd = new FormData();
+
+        for (const key in newProject) {
+            if (key !== 'images' && newProject[key]) {
+                fd.append(key, newProject[key]);
+            }
+        }
+
+        newProject.images.forEach(img => {
+            fd.append('images', img);
+        });
+
+        return fd;
     };
 
     return (
@@ -154,6 +182,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     updateNewProject,
+    createProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectPresentationPage);

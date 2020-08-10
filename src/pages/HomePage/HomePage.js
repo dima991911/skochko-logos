@@ -72,6 +72,7 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.isAuth,
         newProject: state.newProject,
+        projects: state.projects,
     };
 };
 
