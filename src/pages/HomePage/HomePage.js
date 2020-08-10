@@ -3,8 +3,9 @@ import { connect } from "react-redux";
 import "./HomePage.css";
 
 import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
+import { ProjectService } from "../../services/ProjectService";
 
-import { updateNewProject } from "../../store/actions";
+import { updateNewProject, fetchProjects } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 
@@ -13,10 +14,16 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ isAuth, projects, newProject, updateNewProject }) {
+function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
+        ProjectService.fetchProjects().then(res => {
+            fetchProjects(res.projects);
+        }).catch(err => {
+            alert(`${err.message}. Please try again`);
+        });
+
         setTimeout(() => {
             setAnimateTitle(true);
         }, 1500);
@@ -65,7 +72,7 @@ function HomePage({ isAuth, projects, newProject, updateNewProject }) {
     );
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
     return {
         isAuth: state.isAuth,
         newProject: state.newProject,
@@ -75,6 +82,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     updateNewProject,
+    fetchProjects,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

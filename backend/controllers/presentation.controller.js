@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const fs = require('fs');
+
 const Image = mongoose.model('Images');
 const Presentation = mongoose.model('Presentations');
 
@@ -58,6 +59,17 @@ module.exports.createPresentation = async(req, res) => {
         await newProject.save();
         res.status(200).json({ project: newProject });
     }
+};
+
+module.exports.getProjects = async(req, res) => {
+    const projects = await Presentation.find({}).populate('images');
+    res.status(200).json({ projects });
+};
+
+module.exports.getProject = async(req, res) => {
+    const { id } = req.params;
+    const project = await Presentation.findById(id).populate('images');
+    res.status(200).json({ project });
 };
 
 const saveImg = (imgFile) => {

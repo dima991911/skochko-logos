@@ -1,49 +1,87 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from "react-redux";
 import ScrollAnimation from 'react-animate-on-scroll';
 import './ProjectItemPage.css';
 
-import { project } from '../../images/works/beerd-project';
+import { config } from "../../config";
+import { fetchProjects } from "../../store/actions";
+import { ProjectService } from "../../services/ProjectService";
 
-export default function ProjectItemPage() {
+import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
+import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
+
+function ProjectItemPage({ project, match, fetchProjects }) {
+
+    useEffect(() => {
+        const { id } = match.params;
+        if (!project) {
+            ProjectService.fetchProjectById(id)
+                .then(res => {
+                    fetchProjects([res.project]);
+                })
+                .catch(err => {
+                    alert('Something wen wrong');
+                });
+        }
+    });
 
     const renderImages = () => {
         const { images } = project;
 
-        return images.map((img, index) => (
-                <div className="project-item-image" key={index}>
+        return images.map(img => (
+                <div className="project-item-image" key={img._id}>
                     <ScrollAnimation animateIn="fadeIn" duration={0.3} animateOnce={true}>
-                        <img src={img} alt="Presentation" />
+                        <img src={`${config.publicApiForImages}${img.url}`} alt="Presentation" />
                     </ScrollAnimation>
                 </div>
         ))
     };
 
     return (
-        <div className="project-container" style={{ backgroundColor: project.backgroundColor }}>
-            <div className="top-section-avatar" style={{ backgroundImage: `url('${project.previewImg}')` }} />
+        <>
+            {project &&
+                <div className="project-container" style={{ backgroundColor: project.backgroundColor, color: project.textColor }}>
+                    <div className="top-section-avatar" style={{ backgroundImage: `url('${config.publicApiForImages}${project.topSectionImg}')` }} />
 
-            <div className="project-info">
-                <h1 className="project-info-name">{project.name}</h1>
-                <h2 className="project-info-slogan">{project.slogan}</h2>
-                <p className="project-info-description">{project.description}</p>
-                <a className="project-info-website-link" href={project.websiteLink}>Visit Website</a>
-            </div>
+                    <ProjectInfoComponent
+                        project={project}
+                        isPreview={true}
+                    />
 
-            {renderImages()}
+                    {renderImages()}
 
-            <div className="project-feedback-container">
-                <div className="project-feedback-wrapper">
-                    <div className="project-feedback-quote">“</div>
 
-                    <h2 className="project-feedback-title">Client feedback</h2>
-                    <p className="project-feedback">Great Work and good communication. Also great Service.</p>
-                    <p className="project-feedback-author">Adam Smith</p>
+                    {
+                        project.feedback &&
+                            <PresentationFeedbackComponent
+                                project={project}
+                                isPreview={true}
+                            />
+                    }
+
+                    {
+                        project.bottomSectionImg &&
+                            <div className="project-item-image">
+                                <img src={`${config.publicApiForImages}${project.bottomSectionImg}`} alt="Presentation" />
+                            </div>
+                    }
                 </div>
-            </div>
-
-            <div className="project-item-image">
-                <img src={project.lastImg} alt="Presentation" />
-            </div>
-        </div>
+            }
+        </>
     )
 }
+
+const mapStateToProps = (state, ownProps) => {
+    const { id } = ownProps.match.params;
+    const project = state.projects.find(prj => prj._id === id);
+
+    return {
+        project: project,
+    };
+};
+
+const mapDispatchToProps = {
+    fetchProjects,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectItemPage);

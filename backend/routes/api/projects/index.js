@@ -10,4 +10,7 @@ router.post('/',
     upload.fields([{ name: 'topSectionImg', maxCount: 1 }, { name: 'bottomSectionImg', maxCount: 1 }, { name: 'preview', maxCount: 1 }, { name: 'images', maxCount: 10 }]),
     presentationController.createPresentation);
 
+router.get('/', presentationController.getProjects);
+router.get('/:id', presentationController.getProject);
+
 module.exports = router;
