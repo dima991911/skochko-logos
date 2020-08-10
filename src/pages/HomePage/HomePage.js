@@ -7,14 +7,13 @@ import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 import { updateNewProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
-import { works } from "../../images/works";
 
 const topSectionTitles = [
     'Welcome to my',
     'Portfolio',
 ];
 
-function HomePage({ isAuth, newProject, updateNewProject }) {
+function HomePage({ isAuth, projects, newProject, updateNewProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -24,14 +23,12 @@ function HomePage({ isAuth, newProject, updateNewProject }) {
     }, []);
 
     const renderProjects = () => {
-        // TODO: remove flat, refactor
-        const worksFlat = works.flat();
-
-        return worksFlat.map((work, i) => (
+        // TODO: change id to slug
+        return projects.map((project) => (
             <ProjectItemComponent
-                work={work}
-                id={i} // TODO: change id to slug
-                key={i}
+                work={project}
+                id={project._id}
+                key={project._id}
             />
         ))
     };
@@ -72,6 +69,7 @@ const mapStateToProps = (state) => {
     return {
         isAuth: state.isAuth,
         newProject: state.newProject,
+        projects: state.projects,
     };
 };
 

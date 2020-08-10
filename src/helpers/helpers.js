@@ -82,4 +82,19 @@ const toBase64 = file => new Promise((resolve, reject) => {
     reader.onerror = error => reject(error);
 });
 
-export { SmoothScroll, backendRequestsErrorHandler, toBase64 };
+const newProjectInit = {
+    backgroundColor: '#000',
+    textColor: '#fff',
+    preview: null,
+    topSectionImg: null,
+    name: null,
+    slogan: null,
+    description: null,
+    websiteLink: null,
+    images: [],
+    feedback: null,
+    clientName: null,
+    bottomSectionImg: null,
+};
+
+export { SmoothScroll, backendRequestsErrorHandler, toBase64, newProjectInit };

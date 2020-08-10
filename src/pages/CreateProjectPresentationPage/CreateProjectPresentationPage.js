@@ -2,14 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CreateProjectPresentationPage.css';
 
-import { updateNewProject } from "../../store/actions";
+import { updateNewProject, createProject } from "../../store/actions";
+import { ProjectService } from "../../services/ProjectService";
+import { newProjectInit } from "../../helpers/helpers";
+
 import SectionImageComponent from "../../compnents/SectionImageComponent/SectionImageComponent";
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 import PresentationImageListComponent from "../../compnents/PresentationImageListComponent/PresentationImageListComponent";
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 import ColorPickerComponent from "../../compnents/ColorPickerComponent/ColorPickerComponent";
 
-function CreateProjectPresentationPage({ newProject, updateNewProject, history }) {
+function CreateProjectPresentationPage({ newProject, updateNewProject, createProject, history }) {
     const [isPreview, setIsPreview] = useState(false);
 
     const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor, feedback, name, preview } = newProject;
@@ -70,7 +73,32 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, history }
 
     const handleSavePresentation = () => {
         const isValidaPresentation = validatePresentation();
-        console.log(newProject, isValidaPresentation);
+        const fd = generateFormData();
+
+        if (isValidaPresentation) {
+            ProjectService.createProject(fd)
+                .then(res => {
+                    createProject(res.project);
+                    updateNewProject({ ...newProjectInit });
+                    history.push('/');
+                });
+        }
+    };
+
+    const generateFormData = () => {
+        const fd = new FormData();
+
+        for (const key in newProject) {
+            if (key !== 'images' && newProject[key]) {
+                fd.append(key, newProject[key]);
+            }
+        }
+
+        newProject.images.forEach(img => {
+            fd.append('images', img);
+        });
+
+        return fd;
     };
 
     return (
@@ -154,6 +182,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = {
     updateNewProject,
+    createProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectPresentationPage);
