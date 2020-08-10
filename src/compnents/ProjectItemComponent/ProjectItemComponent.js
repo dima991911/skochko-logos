@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import './ProjectItemComponent.css';
 
+import { config } from "../../config";
+
 import ParallaxPreviewComponent from "../ParallaxPreviewComponent/ParallaxPreviewComponent";
 
 function ProjectItemComponent({ work, history, id }) {
@@ -23,14 +25,14 @@ function ProjectItemComponent({ work, history, id }) {
 
     return (
         <div className="column">
-            <ParallaxPreviewComponent imgUrl={work.avatarUrl} onClick={navigateToProjectPresentation} />
+            <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
 
             <div className="work-name-container">
                 <span className="work-name-title">{work.name}</span>
                 <span className="work-name-line" />
             </div>
             <p className="work-description">
-                {work.description}
+                {work.slogan || ''}
             </p>
         </div>
     )

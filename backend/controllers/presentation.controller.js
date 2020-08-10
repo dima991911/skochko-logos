@@ -51,9 +51,12 @@ module.exports.createPresentation = async(req, res) => {
             newProject.images = result;
             await newProject.save();
             newProject = await newProject.populate('images').execPopulate();
-            console.log(newProject);
+
             res.status(200).json({ project: newProject });
         });
+    } else {
+        await newProject.save();
+        res.status(200).json({ project: newProject });
     }
 };
 

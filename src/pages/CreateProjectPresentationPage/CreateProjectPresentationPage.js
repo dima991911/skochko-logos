@@ -12,7 +12,7 @@ import PresentationImageListComponent from "../../compnents/PresentationImageLis
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 import ColorPickerComponent from "../../compnents/ColorPickerComponent/ColorPickerComponent";
 
-function CreateProjectPresentationPage({ newProject, updateNewProject, history }) {
+function CreateProjectPresentationPage({ newProject, updateNewProject, createProject, history }) {
     const [isPreview, setIsPreview] = useState(false);
 
     const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor, feedback, name, preview } = newProject;
@@ -77,8 +77,8 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, history }
 
         if (isValidaPresentation) {
             ProjectService.createProject(fd)
-                .then(project => {
-                    createProject(project);
+                .then(res => {
+                    createProject(res.project);
                     updateNewProject({ ...newProjectInit });
                     history.push('/');
                 });
