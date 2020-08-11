@@ -30,11 +30,10 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
     }, []);
 
     const renderProjects = () => {
-        // TODO: change id to slug
         return projects.map(project => (
             <ProjectItemComponent
                 work={project}
-                id={project._id}
+                slug={project.slug}
                 key={project._id}
                 isAuth={isAuth}
                 removeProject={() => handleRemoveProject(project._id)}

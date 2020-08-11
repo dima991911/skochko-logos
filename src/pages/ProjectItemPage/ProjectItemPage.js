@@ -13,9 +13,9 @@ import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackC
 function ProjectItemPage({ project, match, fetchProjects }) {
 
     useEffect(() => {
-        const { id } = match.params;
+        const { slug } = match.params;
         if (!project) {
-            ProjectService.fetchProjectById(id)
+            ProjectService.fetchProjectById(slug)
                 .then(res => {
                     fetchProjects([res.project]);
                 })
@@ -72,8 +72,8 @@ function ProjectItemPage({ project, match, fetchProjects }) {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    const { id } = ownProps.match.params;
-    const project = state.projects.find(prj => prj._id === id);
+    const { slug } = ownProps.match.params;
+    const project = state.projects.find(prj => prj.slug === slug);
 
     return {
         project: project,

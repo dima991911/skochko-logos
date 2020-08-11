@@ -7,7 +7,7 @@ import { commonIcons } from "../../images/icons";
 
 import ParallaxPreviewComponent from "../ParallaxPreviewComponent/ParallaxPreviewComponent";
 
-function ProjectItemComponent({ work, history, id, isAuth, removeProject }) {
+function ProjectItemComponent({ work, history, slug, isAuth, removeProject }) {
     useEffect(() => {
         const scrollToTop = () => {
             window.scrollTo(0 ,0);
@@ -21,7 +21,7 @@ function ProjectItemComponent({ work, history, id, isAuth, removeProject }) {
     }, []);
 
     const navigateToProjectPresentation = () => {
-        history.push('/projects/' + id);
+        history.push('/projects/' + slug);
     };
 
     const handleRemoveProject = () => {

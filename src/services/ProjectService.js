@@ -30,8 +30,8 @@ class ProjectService {
             });
     }
 
-    static async fetchProjectById(id) {
-        return fetch(`${config.api}projects/${id}`, {
+    static async fetchProjectById(slug) {
+        return fetch(`${config.api}projects/${slug}`, {
             method: 'GET',
         })
             .then(res => {
