@@ -16,6 +16,7 @@ export function updateUserAuth(isAuth) {
 
 export const ProjectType = {
     CREATE_PROJECT: 'CREATE_PROJECT',
+    DELETE_PROJECT: 'DELETE_PROJECT',
     FETCH_PROJECTS: 'FETCH_PROJECTS',
 };
 
@@ -25,4 +26,8 @@ export function createProject(project) {
 
 export function fetchProjects(projects) {
     return { type: ProjectType.FETCH_PROJECTS, projects }
+}
+
+export function deleteProject(id) {
+    return { type: ProjectType.DELETE_PROJECT, id }
 }

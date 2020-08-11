@@ -5,7 +5,7 @@ import "./HomePage.css";
 import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 import { ProjectService } from "../../services/ProjectService";
 
-import { updateNewProject, fetchProjects } from "../../store/actions";
+import { updateNewProject, fetchProjects, deleteProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
 
@@ -14,7 +14,7 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects }) {
+function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects, deleteProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -31,13 +31,25 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
 
     const renderProjects = () => {
         // TODO: change id to slug
-        return projects.map((project) => (
+        return projects.map(project => (
             <ProjectItemComponent
                 work={project}
                 id={project._id}
                 key={project._id}
+                isAuth={isAuth}
+                removeProject={() => handleRemoveProject(project._id)}
             />
         ))
+    };
+
+    const handleRemoveProject = (id) => {
+        ProjectService.removeProject(id)
+            .then(res => {
+                deleteProject(res.id);
+            })
+            .catch(err => {
+                alert('Something went wrong, try again');
+            });
     };
 
     const handleUpdateNewProject = (project) => {
@@ -83,6 +95,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = {
     updateNewProject,
     fetchProjects,
+    deleteProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

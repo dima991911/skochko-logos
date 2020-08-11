@@ -42,6 +42,19 @@ class ProjectService {
                 }
             });
     }
+
+    static async removeProject(id) {
+        return fetch(`${config.api}projects/${id}`, {
+            method: 'DELETE',
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
 }
 
 export { ProjectService };

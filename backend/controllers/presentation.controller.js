@@ -72,6 +72,24 @@ module.exports.getProject = async(req, res) => {
     res.status(200).json({ project });
 };
 
+module.exports.removeProject = async(req, res) => {
+    const { id } = req.params;
+    const project = await Presentation.findById(id).populate('images');
+
+    const urlForDelete = [project.preview, project.topSectionImg, project.bottomSectionImg, ...project.images.map(i => i.url)];
+    urlForDelete.forEach(url => {
+        if (url) {
+            fs.unlinkSync('public/' + url);
+        }
+    });
+
+    await Image.deleteMany({ _id: { $in: [...project.images.map(i => i._id)] } });
+    project.remove((err) => {
+        if (err) res.status(500).send({ error: 'Something went wrong' });
+        else res.status(200).send({ id });
+    });
+};
+
 const saveImg = (imgFile) => {
     const name =  uuidv4() + '.jpg';
 

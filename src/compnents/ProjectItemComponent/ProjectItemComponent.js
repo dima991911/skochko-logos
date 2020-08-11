@@ -3,10 +3,11 @@ import { withRouter } from "react-router-dom";
 import './ProjectItemComponent.css';
 
 import { config } from "../../config";
+import { commonIcons } from "../../images/icons";
 
 import ParallaxPreviewComponent from "../ParallaxPreviewComponent/ParallaxPreviewComponent";
 
-function ProjectItemComponent({ work, history, id }) {
+function ProjectItemComponent({ work, history, id, isAuth, removeProject }) {
     useEffect(() => {
         const scrollToTop = () => {
             window.scrollTo(0 ,0);
@@ -23,8 +24,19 @@ function ProjectItemComponent({ work, history, id }) {
         history.push('/projects/' + id);
     };
 
+    const handleRemoveProject = () => {
+        removeProject();
+    };
+
     return (
         <div className="column">
+            {
+                isAuth &&
+                    <div className="remove-project" onClick={handleRemoveProject}>
+                        <img src={commonIcons.remove} alt="remove" />
+                    </div>
+            }
+
             <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
 
             <div className="work-name-container">

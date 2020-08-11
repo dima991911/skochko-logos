@@ -12,5 +12,6 @@ router.post('/',
 
 router.get('/', presentationController.getProjects);
 router.get('/:id', presentationController.getProject);
+router.delete('/:id', presentationController.removeProject);
 
 module.exports = router;
