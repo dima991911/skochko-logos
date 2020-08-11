@@ -70,7 +70,7 @@ module.exports.getProjects = async(req, res) => {
 
 module.exports.getProject = async(req, res) => {
     const { slug } = req.params;
-    const project = await Presentation.findById(slug).populate('images');
+    const project = await Presentation.findOne({ slug }).populate('images');
     res.status(200).json({ project });
 };
 
