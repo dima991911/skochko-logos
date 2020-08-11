@@ -30,7 +30,7 @@ function ProjectItemPage({ project, match, fetchProjects }) {
 
         return images.map(img => (
                 <div className="project-item-image" key={img._id}>
-                    <ScrollAnimation animateIn="fadeIn" duration={0.3} animateOnce={true}>
+                    <ScrollAnimation animateIn="fadeIn" duration={1} animateOnce={true}>
                         <img src={`${config.publicApiForImages}${img.url}`} alt="Presentation" />
                     </ScrollAnimation>
                 </div>
