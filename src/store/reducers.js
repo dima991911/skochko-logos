@@ -22,6 +22,10 @@ export function projectReducer(state, action) {
     switch (action.type) {
         case ProjectType.CREATE_PROJECT:
             return [...state, action.project];
+        case ProjectType.FETCH_PROJECTS:
+            return [...action.projects];
+        case ProjectType.DELETE_PROJECT:
+            return [...state].filter(project => project._id !== action.id);
         default:
             return state;
     }

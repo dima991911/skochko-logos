@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
+const slugify = require('slugify');
 const fs = require('fs');
+
 const Image = mongoose.model('Images');
 const Presentation = mongoose.model('Presentations');
 
@@ -22,10 +24,11 @@ const defaultPresentation = {
 module.exports.createPresentation = async(req, res) => {
     const body = req.body;
     const files = req.files;
+    const slug = slugify(body.name, { lower: true, replacement: '-' });
 
     const topSectionImg = saveImg(files.topSectionImg[0]);
     const preview = saveImg(files.preview[0]);
-    let newProject = new Presentation({ ...defaultPresentation, ...body, topSectionImg, preview });
+    let newProject = new Presentation({ ...defaultPresentation, ...body, topSectionImg, preview, slug });
 
     if (files.bottomSectionImg) {
         const bottomSectionImg = saveImg(files.bottomSectionImg[0]);
@@ -58,6 +61,35 @@ module.exports.createPresentation = async(req, res) => {
         await newProject.save();
         res.status(200).json({ project: newProject });
     }
+};
+
+module.exports.getProjects = async(req, res) => {
+    const projects = await Presentation.find({}).populate('images');
+    res.status(200).json({ projects });
+};
+
+module.exports.getProject = async(req, res) => {
+    const { slug } = req.params;
+    const project = await Presentation.findById(slug).populate('images');
+    res.status(200).json({ project });
+};
+
+module.exports.removeProject = async(req, res) => {
+    const { id } = req.params;
+    const project = await Presentation.findById(id).populate('images');
+
+    const urlForDelete = [project.preview, project.topSectionImg, project.bottomSectionImg, ...project.images.map(i => i.url)];
+    urlForDelete.forEach(url => {
+        if (url) {
+            fs.unlinkSync('public/' + url);
+        }
+    });
+
+    await Image.deleteMany({ _id: { $in: [...project.images.map(i => i._id)] } });
+    project.remove((err) => {
+        if (err) res.status(500).send({ error: 'Something went wrong' });
+        else res.status(200).send({ id });
+    });
 };
 
 const saveImg = (imgFile) => {

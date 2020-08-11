@@ -11,6 +11,11 @@ const PresentationsSchema = new Schema({
         type: String,
         required: true,
     },
+    slug: {
+        type: String,
+        unique: true,
+        required: true,
+    },
     preview: {
         type: String,
         required: true,

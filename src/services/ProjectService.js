@@ -16,6 +16,45 @@ class ProjectService {
                 }
             });
     }
+
+    static async fetchProjects() {
+        return fetch(`${config.api}projects`, {
+            method: 'GET',
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
+
+    static async fetchProjectById(slug) {
+        return fetch(`${config.api}projects/${slug}`, {
+            method: 'GET',
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
+
+    static async removeProject(id) {
+        return fetch(`${config.api}projects/${id}`, {
+            method: 'DELETE',
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
 }
 
 export { ProjectService };

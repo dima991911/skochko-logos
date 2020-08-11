@@ -49,7 +49,7 @@ function App() {
 
                     <Switch>
                         <Route exact path="/" component={HomePage} />
-                        <Route path="/projects/:id" component={ProjectItemPage} />
+                        <Route path="/projects/:slug" component={ProjectItemPage} />
                         <Route path="/login" component={LoginPage} />
                         <PrivateRoute path="/project/create" component={CreateProjectPresentationPage} />
                     </Switch>
