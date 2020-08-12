@@ -12,21 +12,19 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
 
-// app.use(fileUpload({
-//   createParentPath: true
-// }));
 app.use(cors());
 app.use(require('morgan')('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(upload.array());
 app.use(express.static(path.join(__dirname, 'public')));
 
 if (!isProduction) {
   app.use(errorHandler());
 }
 
-mongoose.connect('mongodb+srv://dima991911:192837465ds@skochko-design-bkl1q.mongodb.net/skochko-design?retryWrites=true&w=majority',
+const mongoDbHost = process.env.DEVELOPMENT ? 'mongodb://dima991911:192837465ds@ds157712.mlab.com:57712/skochko' : 'mongodb+srv://dima991911:192837465ds@skochko-design-bkl1q.mongodb.net/skochko-design?retryWrites=true&w=majority';
+
+mongoose.connect(mongoDbHost,
     {useNewUrlParser: true, useUnifiedTopology: true});
 const db = mongoose.connection;
 mongoose.set('debug', true);
