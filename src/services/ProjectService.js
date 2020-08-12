@@ -44,7 +44,7 @@ class ProjectService {
     }
 
     static async removeProject(id) {
-        return fetch(`${config.api}projects/${id}`, {
+        return fetch(`${config.api}projects/${id}?token=${UserService.getToken()}`, {
             method: 'DELETE',
         })
             .then(res => {
