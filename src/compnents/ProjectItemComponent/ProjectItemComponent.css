@@ -38,18 +38,26 @@
     font-weight: 400;
 }
 
-.remove-project {
+.actions-wrapper {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.action-item {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 35px;
     height: 35px;
+    margin-bottom: 10px;
     background: white;
+    color: black;
     border-radius: 35px;
     z-index: 100;
+    cursor: pointer;
 }
 
 .remove-project img {

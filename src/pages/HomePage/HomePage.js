@@ -30,15 +30,29 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
     }, []);
 
     const renderProjects = () => {
-        return projects.map(project => (
+        return projects.map((project, index) => (
             <ProjectItemComponent
                 work={project}
+                isFirstProject={index === 0}
+                isLastProject={index === projects.length - 1}
                 slug={project.slug}
                 key={project._id}
                 isAuth={isAuth}
                 removeProject={() => handleRemoveProject(project._id)}
+                changeOrder={(isToTop) => handleChangeOrder(isToTop, project._id)}
             />
         ))
+    };
+
+    const handleChangeOrder = (isToTop, projectId) => {
+        ProjectService.changeOrder(isToTop, projectId)
+            .then(async () => {
+                const res = await ProjectService.fetchProjects();
+                fetchProjects(res.projects);
+            })
+            .catch(err => {
+                alert(err);
+            });
     };
 
     const handleRemoveProject = (id) => {

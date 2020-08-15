@@ -7,7 +7,7 @@ import { commonIcons } from "../../images/icons";
 
 import ParallaxPreviewComponent from "../ParallaxPreviewComponent/ParallaxPreviewComponent";
 
-function ProjectItemComponent({ work, history, slug, isAuth, removeProject }) {
+function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isLastProject, removeProject, changeOrder }) {
     useEffect(() => {
         const scrollToTop = () => {
             window.scrollTo(0 ,0);
@@ -28,12 +28,31 @@ function ProjectItemComponent({ work, history, slug, isAuth, removeProject }) {
         removeProject();
     };
 
+    const handleChangeOrder = (isToTop) => {
+        changeOrder(isToTop);
+    };
+
     return (
         <div className="column">
             {
                 isAuth &&
-                    <div className="remove-project" onClick={handleRemoveProject}>
-                        <img src={commonIcons.remove} alt="remove" />
+                    <div className="actions-wrapper">
+
+                        <div className="action-item remove-project" onClick={handleRemoveProject}>
+                            <img src={commonIcons.remove} alt="remove" />
+                        </div>
+                        {
+                            !isFirstProject &&
+                                <div className="action-item remove-project" onClick={() => handleChangeOrder(true)}>
+                                    T
+                                </div>
+                        }
+                        {
+                            !isLastProject &&
+                                <div className="action-item remove-project" onClick={() => handleChangeOrder(false)}>
+                                    B
+                                </div>
+                        }
                     </div>
             }
 
