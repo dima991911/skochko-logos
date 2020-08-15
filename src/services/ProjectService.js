@@ -72,6 +72,20 @@ class ProjectService {
                 }
             });
     }
+
+    static async changePreview(fd, id) {
+        return fetch(`${config.api}projects/preview/${id}?token=${UserService.getToken()}`, {
+            method: 'PUT',
+            body: fd,
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
 }
 
 export { ProjectService };

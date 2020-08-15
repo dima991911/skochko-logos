@@ -26,6 +26,13 @@ export function projectReducer(state, action) {
             return [...action.projects];
         case ProjectType.DELETE_PROJECT:
             return [...state].filter(project => project._id !== action.id);
+        case ProjectType.UPDATE_PROJECT:
+            const { id, project } = action.project;
+            const updatedProjects = [...state];
+            const findIndex = updatedProjects.findIndex(p => p._id === id);
+
+            updatedProjects[findIndex] = project;
+            return updatedProjects;
         default:
             return state;
     }

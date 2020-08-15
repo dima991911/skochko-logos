@@ -15,5 +15,6 @@ router.get('/', presentationController.getProjects);
 router.get('/:slug', presentationController.getProject);
 router.delete('/:id', isAuthMiddleware, presentationController.removeProject);
 router.put('/order/:id', isAuthMiddleware, presentationController.changeOrder);
+router.put('/preview/:id', isAuthMiddleware, upload.fields([{ name: 'preview' }]), presentationController.changePreview);
 
 module.exports = router;
