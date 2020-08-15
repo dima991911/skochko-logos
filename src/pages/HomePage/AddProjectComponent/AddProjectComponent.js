@@ -4,6 +4,7 @@ import "./AddProjectComponent.css";
 
 import { commonIcons } from "../../../images/icons";
 import { toBase64 } from "../../../helpers/helpers";
+import ProjectActionsComponent from "../ProjectActionsComponent/ProjectActionsComponent";
 import ParallaxPreviewComponent from "../../../compnents/ParallaxPreviewComponent/ParallaxPreviewComponent";
 
 function AddProjectComponent({ newProject, updateNewProject, history }) {
@@ -33,6 +34,11 @@ function AddProjectComponent({ newProject, updateNewProject, history }) {
         history.push('/project/create');
     };
 
+    const actions = [
+        { name: 'Edit Preview', onClick: choosePreviewPhoto },
+        { name: 'Presentations', onClick: navigateToCreatePresentationPage },
+    ];
+
     const renderChooseProjectContainer = () => {
         return (
             <div className="add-project" onClick={choosePreviewPhoto}>
@@ -48,11 +54,9 @@ function AddProjectComponent({ newProject, updateNewProject, history }) {
     const renderPreviewImg = () => {
         return (
             <div className="preview-img-wrapper">
-                <div className="preview-actions-container">
-                    <div className="preview-action" onClick={choosePreviewPhoto}>Edit Preview</div>
-                    <div className="preview-action" onClick={navigateToCreatePresentationPage}>Presentation</div>
+                <div className="preview-img-actions-container">
+                    <ProjectActionsComponent actions={actions} />
                 </div>
-
                 <ParallaxPreviewComponent imgUrl={previewImg} />
             </div>
         )

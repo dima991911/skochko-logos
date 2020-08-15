@@ -9,6 +9,23 @@
     box-sizing: border-box;
 }
 
+.project-actions-container {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    transform: translateY(100%);
+    transition: .3s ease-out;
+}
+
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.parallax-container:hover .project-actions-container {
+    transform: translateY(0);
+}
+
 .work-name-container {
     display: flex;
     align-items: center;
@@ -58,6 +75,10 @@
     border-radius: 35px;
     z-index: 100;
     cursor: pointer;
+}
+
+.change-preview-input {
+    display: none;
 }
 
 .remove-project img {

@@ -80,11 +80,7 @@ module.exports.removeProject = async(req, res) => {
     const projectList = await PresentationList.findOne({});
 
     const urlForDelete = [project.preview, project.topSectionImg, project.bottomSectionImg, ...project.images.map(i => i.url)];
-    urlForDelete.forEach(url => {
-        if (url) {
-            fs.unlinkSync('public/' + url);
-        }
-    });
+    removeImages(urlForDelete);
 
     await Image.deleteMany({ _id: { $in: [...project.images.map(i => i._id)] } });
     project.remove(async err => {
@@ -119,6 +115,28 @@ module.exports.changeOrder = async(req, res) => {
     projectsList.projects = projects;
     await PresentationList.update({ _id: projectsList._id }, { $set: { projects: projects } });
     res.status(200).send({ status: 200 });
+};
+
+module.exports.changePreview = async (req, res) => {
+    const { id } = req.params;
+    const preview = req.files.preview[0];
+
+    const project = await Presentation.findById(id).populate('images');
+    removeImages([project.preview]);
+
+    project.preview = saveImg(preview);
+    await project.save();
+
+    res.status(200).json({ project });
+};
+
+const removeImages = (imagesUrlArr) => {
+    imagesUrlArr.forEach(url => {
+        const path = 'public/' + url;
+        if (fs.existsSync(path)) {
+            fs.unlinkSync(path);
+        }
+    });
 };
 
 const saveImg = (imgFile) => {

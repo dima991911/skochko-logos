@@ -5,16 +5,16 @@ import "./HomePage.css";
 import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 import { ProjectService } from "../../services/ProjectService";
 
-import { updateNewProject, fetchProjects, deleteProject } from "../../store/actions";
+import { updateNewProject, fetchProjects, deleteProject, updateProject } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
-import ProjectItemComponent from "../../compnents/ProjectItemComponent/ProjectItemComponent";
+import ProjectItemComponent from "./ProjectItemComponent/ProjectItemComponent";
 
 const topSectionTitles = [
     'Welcome to my',
     'Portfolio',
 ];
 
-function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects, deleteProject }) {
+function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects, deleteProject, updateProject }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -40,8 +40,22 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
                 isAuth={isAuth}
                 removeProject={() => handleRemoveProject(project._id)}
                 changeOrder={(isToTop) => handleChangeOrder(isToTop, project._id)}
+                changePreview={(preview) => handleChangePreview(preview, project._id)}
             />
         ))
+    };
+
+    const handleChangePreview = (preview, projectId) => {
+        const fd = new FormData();
+        fd.append('preview', preview);
+
+        ProjectService.changePreview(fd, projectId)
+            .then(res => {
+                updateProject({ id: projectId, project: res.project });
+            })
+            .catch(err => {
+                alert(err);
+            })
     };
 
     const handleChangeOrder = (isToTop, projectId) => {
@@ -60,7 +74,7 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
             .then(res => {
                 deleteProject(res.id);
             })
-            .catch(err => {
+            .catch(() => {
                 alert('Something went wrong, try again');
             });
     };
@@ -73,6 +87,7 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
         <div className="page">
             <div className="top-section-wrapper">
                 <HeaderComponent />
+
                 <section className="top-section">
                     {canAnimateTitle && (
                         <h1>
@@ -89,7 +104,8 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
             <div className="works">
                 {renderProjects()}
 
-                {isAuth &&
+                {
+                    isAuth &&
                         <AddProjectComponent newProject={newProject} updateNewProject={handleUpdateNewProject} />
                 }
             </div>
@@ -97,7 +113,7 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
     );
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         isAuth: state.isAuth,
         newProject: state.newProject,
@@ -109,6 +125,7 @@ const mapDispatchToProps = {
     updateNewProject,
     fetchProjects,
     deleteProject,
+    updateProject,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);
