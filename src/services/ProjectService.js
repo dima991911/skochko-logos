@@ -55,6 +55,23 @@ class ProjectService {
                 }
             });
     }
+
+    static async changeOrder(isToTop, id) {
+        return fetch(`${config.api}projects/order/${id}?token=${UserService.getToken()}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ isToTop }),
+        })
+            .then(res => {
+                if (res.status !== 200) {
+                    return backendRequestsErrorHandler(res);
+                } else {
+                    return res.json();
+                }
+            });
+    }
 }
 
 export { ProjectService };

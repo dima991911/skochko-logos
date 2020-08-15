@@ -34,6 +34,9 @@ mongoose.set('useCreateIndex', true);
 require('./models/Users');
 require('./models/Presentation');
 require('./models/Image');
+require('./models/PresentationList');
+
+require('./config/init')();
 
 app.use(require('./routes'));
 

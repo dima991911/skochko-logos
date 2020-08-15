@@ -14,5 +14,6 @@ router.post('/', isAuthMiddleware,
 router.get('/', presentationController.getProjects);
 router.get('/:slug', presentationController.getProject);
 router.delete('/:id', isAuthMiddleware, presentationController.removeProject);
+router.put('/order/:id', isAuthMiddleware, presentationController.changeOrder);
 
 module.exports = router;

@@ -26,7 +26,7 @@ export default function ParallaxPreviewComponent({ imgUrl, onClick }) {
         >
             <Parallax
                 className="custom-class"
-                y={['-200px', '200px']}
+                y={['-150px', '150px']}
                 tagOuter="figure"
             >
                 <div className="bg-avatar" ref={parallaxEl} style={{ backgroundImage: `url('${imgUrl}')` }} />
