@@ -19,6 +19,7 @@ import HomePage from "./pages/HomePage/HomePage";
 import ProjectItemPage from "./pages/ProjectItemPage/ProjectItemPage";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import CreateProjectPresentationPage from "./pages/CreateProjectPresentationPage/CreateProjectPresentationPage";
+import UpdatePresentationPage from "./pages/UpdatePresentationPage/UpdatePresentationPage";
 
 Modal.setAppElement('#root');
 
@@ -52,6 +53,7 @@ function App() {
                         <Route path="/projects/:slug" component={ProjectItemPage} />
                         <Route path="/login" component={LoginPage} />
                         <PrivateRoute path="/project/create" component={CreateProjectPresentationPage} />
+                        <PrivateRoute path="/project/edit/:slug" component={UpdatePresentationPage} />
                     </Switch>
                 </Router>
             </ParallaxProvider>

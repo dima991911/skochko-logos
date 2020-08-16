@@ -130,6 +130,67 @@ module.exports.changePreview = async (req, res) => {
     res.status(200).json({ project });
 };
 
+module.exports.updateProject = async (req, res) => {
+    const { id } = req.params;
+    const body = req.body;
+    const files = req.files;
+    const project = await Presentation.findById(id).populate('images');
+
+    if (files.topSectionImg) {
+        removeImages([project.topSectionImg]);
+        project.topSectionImg = saveImg(files.topSectionImg[0]);
+    }
+
+    if (files.bottomSectionImg) {
+        removeImages([project.bottomSectionImg]);
+        project.bottomSectionImg = saveImg(files.bottomSectionImg[0]);
+    }
+
+    if (body.deleteImages) {
+        const deleteImagesIds = body.deleteImages.split(',');
+        const findImagesForDelete = await Image.find({ _id: { $in: deleteImagesIds } });
+        removeImages(findImagesForDelete.map(i => i.url));
+        await Image.deleteMany({ _id: { $in: deleteImagesIds } });
+    }
+
+    if (files.images) {
+        const imagePromises = [];
+        files.images.forEach(i => {
+            imagePromises.push(new Promise((resolve, reject) => {
+                Image.create({ url: saveImg(i) }, (err, newImage) => {
+                    if (err) reject();
+                    else resolve(newImage._id);
+                });
+            }))
+        })
+
+        Promise.all(imagePromises)
+            .then(async imgIds => {
+                project.images.push(...imgIds);
+                delete body['deleteImages'];
+
+                for (let key in body) {
+                    project[key] = body[key];
+                }
+
+                await project.save();
+                res.status(200).json({ project });
+            })
+            .catch(() => {
+                res.status(500).send({ error: 'Something went wrong' });
+            });
+    } else {
+        delete body['deleteImages'];
+
+        for (let key in body) {
+            project[key] = body[key];
+        }
+
+        await project.save();
+        res.status(200).json({ project });
+    }
+};
+
 const removeImages = (imagesUrlArr) => {
     imagesUrlArr.forEach(url => {
         const path = 'public/' + url;

@@ -36,3 +36,16 @@ export function deleteProject(id) {
 export function updateProject(project) {
     return { type: ProjectType.UPDATE_PROJECT, project };
 }
+
+export const ProjectForUpdateType = {
+    SET_PROJECT: 'SET_PROJECT',
+    UPDATE_PROJECT: 'UPDATE_PROJECT',
+};
+
+export function setProjectForUpdate(project) {
+    return { type: ProjectForUpdateType.SET_PROJECT, project };
+}
+
+export function updateProjectForUpdate(project) {
+    return { type: ProjectForUpdateType.UPDATE_PROJECT, project };
+}

@@ -10,7 +10,7 @@ import SectionImageComponent from "../../compnents/SectionImageComponent/Section
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 import PresentationImageListComponent from "../../compnents/PresentationImageListComponent/PresentationImageListComponent";
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
-import ColorPickerComponent from "../../compnents/ColorPickerComponent/ColorPickerComponent";
+import PanelControlComponent from "../../compnents/PanelControlComponent/PanelControlComponent";
 
 function CreateProjectPresentationPage({ newProject, updateNewProject, createProject, history }) {
     const [isPreview, setIsPreview] = useState(false);
@@ -56,9 +56,10 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, createPro
         updateNewProject(updatedProject);
     };
 
-    const handleRemoveImage = (images) => {
-        const updatedProject = { ...newProject, images };
-        updateNewProject(updatedProject);
+    const handleRemoveImage = (i) => {
+        const updatedImages = [...newProject.images];
+        updatedImages.splice(i, 1);
+        updateNewProject({ ...newProject, images: updatedImages });
     };
 
     const handleChangeBackgroundColor = (backgroundColor) => {
@@ -72,10 +73,10 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, createPro
     };
 
     const handleSavePresentation = () => {
-        const isValidaPresentation = validatePresentation();
+        const isValidatePresentation = validatePresentation();
         const fd = generateFormData();
 
-        if (isValidaPresentation) {
+        if (isValidatePresentation) {
             ProjectService.createProject(fd)
                 .then(res => {
                     createProject(res.project);
@@ -141,35 +142,15 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, createPro
                     /> : null
             }
 
-            <div className="panel-control">
-                <div className="panel-control-show-icon" />
-
-                <div className="panel-control-color-container">
-                    <div className="panel-control-color-item">
-                        <ColorPickerComponent
-                            title="Background"
-                            color={backgroundColor}
-                            onChangeColor={handleChangeBackgroundColor}
-                        />
-                    </div>
-                    <div className="panel-control-color-item">
-                        <ColorPickerComponent
-                            title="Text color"
-                            color={textColor}
-                            onChangeColor={handleChangeTextColor}
-                        />
-                    </div>
-                </div>
-
-                <div className="save-button-container">
-                    <button className="save-button" onClick={handleSavePresentation}>SAVE</button>
-                </div>
-
-                <div className="preview-container">
-                    Show Preview
-                    <input type="checkbox" value={isPreview} onClick={handleIsPreview} />
-                </div>
-            </div>
+            <PanelControlComponent
+                textColor={textColor}
+                backgroundColor={backgroundColor}
+                isPreview={isPreview}
+                toggleIsPreview={handleIsPreview}
+                changeBackgroundColor={handleChangeBackgroundColor}
+                changeTextColor={handleChangeTextColor}
+                savePresentation={handleSavePresentation}
+            />
         </div>
     )
 }

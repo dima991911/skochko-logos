@@ -8,7 +8,8 @@ import { commonIcons } from "../../../images/icons";
 import ParallaxPreviewComponent from "../../../compnents/ParallaxPreviewComponent/ParallaxPreviewComponent";
 import ProjectActionsComponent from "../ProjectActionsComponent/ProjectActionsComponent";
 
-function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isLastProject, removeProject, changeOrder, changePreview }) {
+function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isLastProject,
+                                  navigateToEditProject, removeProject, changeOrder, changePreview }) {
     const inputEl = useRef(null);
 
     useEffect(() => {
@@ -46,7 +47,7 @@ function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isL
 
     const actions = [
         { name: 'Edit Preview', onClick: openInputFile },
-        { name: 'Edit Presentation', onClick: () => console.log(2) }, // TODO: redirect to edit presentation
+        { name: 'Edit Presentation', onClick: navigateToEditProject },
     ]
 
     return (
@@ -75,9 +76,12 @@ function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isL
                         <div className="parallax-container">
                             <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
 
-                            <div className="project-actions-container">
-                                <ProjectActionsComponent actions={actions} />
-                            </div>
+                            {
+                                isAuth &&
+                                    <div className="project-actions-container">
+                                        <ProjectActionsComponent actions={actions} />
+                                    </div>
+                            }
                         </div>
                     </>
             }

@@ -1,4 +1,4 @@
-import { NewProjectType, UserType, ProjectType } from "./actions";
+import { NewProjectType, UserType, ProjectType, ProjectForUpdateType } from "./actions";
 
 export function newProjectReducer(state, action) {
     switch (action.type) {
@@ -33,6 +33,17 @@ export function projectReducer(state, action) {
 
             updatedProjects[findIndex] = project;
             return updatedProjects;
+        default:
+            return state;
+    }
+}
+
+export function editProjectReducer(state, action) {
+    switch (action.type) {
+        case ProjectForUpdateType.SET_PROJECT:
+            return { ...action.project };
+        case ProjectForUpdateType.UPDATE_PROJECT:
+            return { ...action.project };
         default:
             return state;
     }

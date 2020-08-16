@@ -16,5 +16,8 @@ router.get('/:slug', presentationController.getProject);
 router.delete('/:id', isAuthMiddleware, presentationController.removeProject);
 router.put('/order/:id', isAuthMiddleware, presentationController.changeOrder);
 router.put('/preview/:id', isAuthMiddleware, upload.fields([{ name: 'preview' }]), presentationController.changePreview);
+router.put('/:id', isAuthMiddleware,
+    upload.fields([{ name: 'topSectionImg', maxCount: 1 }, { name: 'bottomSectionImg', maxCount: 1 }, { name: 'images', maxCount: 10 }]),
+    presentationController.updateProject)
 
 module.exports = router;

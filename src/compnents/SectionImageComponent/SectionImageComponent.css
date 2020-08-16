@@ -18,8 +18,15 @@
     right: 30px;
     top: 30px;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.actions-container-item {
+    display: flex;
+    justify-content: center;
+    align-content: center;
     width: 50px;
     height: 50px;
     background: rgba(255, 255, 255, 0.8);
@@ -31,11 +38,6 @@
 
 .actions-container img {
     width: 22px;
-}
-
-.actions-container:hover {
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0 0 15px 0 rgba(0,0,0,0.5);
 }
 
 .top-section-choose-image {
