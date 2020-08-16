@@ -54,38 +54,35 @@ function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isL
         <div className="column">
             {
                 isAuth &&
-                    <>
-                        <div className="actions-wrapper">
-                            <div className="action-item remove-project" onClick={handleRemoveProject}>
-                                <img src={commonIcons.remove} alt="remove" />
+                    <div className="actions-wrapper">
+                        <div className="action-item remove-project" onClick={handleRemoveProject}>
+                            <img src={commonIcons.remove} alt="remove" />
+                        </div>
+                        {
+                            !isFirstProject &&
+                            <div className="action-item remove-project" onClick={() => handleChangeOrder(true)}>
+                                T
                             </div>
-                            {
-                                !isFirstProject &&
-                                <div className="action-item remove-project" onClick={() => handleChangeOrder(true)}>
-                                    T
-                                </div>
-                            }
-                            {
-                                !isLastProject &&
-                                <div className="action-item remove-project" onClick={() => handleChangeOrder(false)}>
-                                    B
-                                </div>
-                            }
-                        </div>
-
-                        <div className="parallax-container">
-                            <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
-
-                            {
-                                isAuth &&
-                                    <div className="project-actions-container">
-                                        <ProjectActionsComponent actions={actions} />
-                                    </div>
-                            }
-                        </div>
-                    </>
+                        }
+                        {
+                            !isLastProject &&
+                            <div className="action-item remove-project" onClick={() => handleChangeOrder(false)}>
+                                B
+                            </div>
+                        }
+                    </div>
             }
 
+                <div className="parallax-container">
+                    <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
+
+                    {
+                        isAuth &&
+                            <div className="project-actions-container">
+                                <ProjectActionsComponent actions={actions} />
+                            </div>
+                    }
+                </div>
             <input
                 ref={inputEl}
                 type="file"
