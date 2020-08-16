@@ -5,7 +5,7 @@ import "./HomePage.css";
 import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 import { ProjectService } from "../../services/ProjectService";
 
-import { updateNewProject, fetchProjects, deleteProject, updateProject } from "../../store/actions";
+import { updateNewProject, fetchProjects, deleteProject, updateProject, setProjectForUpdate } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import ProjectItemComponent from "./ProjectItemComponent/ProjectItemComponent";
 
@@ -14,7 +14,8 @@ const topSectionTitles = [
     'Portfolio',
 ];
 
-function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProjects, deleteProject, updateProject }) {
+function HomePage({ isAuth, projects, history, newProject, updateNewProject,
+                      fetchProjects, deleteProject, updateProject, setProjectForUpdate }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -36,6 +37,7 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
                 isFirstProject={index === 0}
                 isLastProject={index === projects.length - 1}
                 slug={project.slug}
+                navigateToEditProject={() => navigateToEditProject(project)}
                 key={project._id}
                 isAuth={isAuth}
                 removeProject={() => handleRemoveProject(project._id)}
@@ -43,6 +45,11 @@ function HomePage({ isAuth, projects, newProject, updateNewProject, fetchProject
                 changePreview={(preview) => handleChangePreview(preview, project._id)}
             />
         ))
+    };
+
+    const navigateToEditProject = (project) => {
+        setProjectForUpdate(project);
+        history.push('/project/edit/' + project.slug);
     };
 
     const handleChangePreview = (preview, projectId) => {
@@ -126,6 +133,7 @@ const mapDispatchToProps = {
     fetchProjects,
     deleteProject,
     updateProject,
+    setProjectForUpdate,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

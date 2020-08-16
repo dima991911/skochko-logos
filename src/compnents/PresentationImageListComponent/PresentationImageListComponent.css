@@ -18,3 +18,21 @@
 .images-list-img {
     width: 100%;
 }
+
+.action-remove-container {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background: white;
+    cursor: pointer;
+}
+
+.action-remove-container img {
+    width: 50%;
+}

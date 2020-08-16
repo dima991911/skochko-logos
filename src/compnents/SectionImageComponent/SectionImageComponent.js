@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import './SectionImageComponent.css';
 
 import { toBase64 } from "../../helpers/helpers";
+import { config } from "../../config";
 import { commonIcons } from "../../images/icons";
 
 export default function SectionImageComponent({ image, changeImage, notFullHeight, isPreview }) {
@@ -9,10 +10,12 @@ export default function SectionImageComponent({ image, changeImage, notFullHeigh
     const inputEl = useRef(null);
 
     useEffect(() => {
-        if (image) {
+        if (image && image instanceof Blob) {
             toBase64(image).then(res => {
                 setImgInBase64(res);
             });
+        } else if (typeof image === 'string') {
+            setImgInBase64(config.publicApiForImages + image);
         }
     }, [image]);
 
@@ -41,7 +44,9 @@ export default function SectionImageComponent({ image, changeImage, notFullHeigh
                 {
                     !isPreview &&
                         <div className="actions-container" onClick={chooseTopSectionImg}>
-                            <img src={commonIcons.edit} alt="Edit" />
+                            <div className="actions-container-item">
+                                <img src={commonIcons.edit} alt="Edit" />
+                            </div>
                         </div>
                 }
 

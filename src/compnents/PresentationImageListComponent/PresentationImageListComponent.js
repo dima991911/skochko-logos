@@ -18,29 +18,30 @@ export default function PresentationImageListComponent({ images, addImage, remov
     };
 
     const removeImageFromPresentation = (i) => {
-        const newImages = [...images];
-        newImages.splice(i, 1);
-        removeImage(newImages);
+        removeImage(i);
     };
 
     const renderImages = () => {
-        return images.map((img, index) => (
-            <div className="project-item-image" key={index}>
+        return images.map((img, index) => {
+            const imageUrl = img instanceof Blob ? img : img.url;
+            return (
+                <div className="project-item-image" key={index}>
 
-                <ScrollAnimation animateIn="fadeIn" duration={0.3}>
-                    <>
-                        {
-                            !isPreview &&
-                                <div className="actions-container" onClick={() => removeImageFromPresentation(index)}>
+                    <ScrollAnimation animateIn="fadeIn" duration={0.3}>
+                        <>
+                            {
+                                !isPreview &&
+                                <div className="action-remove-container" onClick={() => removeImageFromPresentation(index)}>
                                     <img src={commonIcons.remove} alt="Delete" />
                                 </div>
-                        }
+                            }
 
-                        <PresentationImageItem img={img} />
-                    </>
-                </ScrollAnimation>
-            </div>
-        ))
+                            <PresentationImageItem img={imageUrl} />
+                        </>
+                    </ScrollAnimation>
+                </div>
+            )
+        })
     };
 
     return (
