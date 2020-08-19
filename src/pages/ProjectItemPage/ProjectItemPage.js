@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import ScrollAnimation from 'react-animate-on-scroll';
+import "animate.css/animate.min.css";
 import './ProjectItemPage.css';
 
 import { fetchProjects } from "../../store/actions";
@@ -29,7 +30,7 @@ function ProjectItemPage({ project, match, fetchProjects }) {
 
         return images.map(img => (
                 <div className="project-item-image" key={img._id}>
-                    <ScrollAnimation animateIn="fadeIn" duration={1} animateOnce={true}>
+                    <ScrollAnimation animateIn="fadeIn" duration={1.7} animateOnce={true}>
                         <img src={`${img.url}`} alt="Presentation" />
                     </ScrollAnimation>
                 </div>
@@ -40,7 +41,9 @@ function ProjectItemPage({ project, match, fetchProjects }) {
         <>
             {project &&
                 <div className="project-container" style={{ backgroundColor: project.backgroundColor, color: project.textColor }}>
-                    <div className="top-section-avatar" style={{ backgroundImage: `url('${project.topSectionImg}')` }} />
+                    <ScrollAnimation animateIn="fadeIn" duration={1.7} animateOnce={true}>
+                        <div className="top-section-avatar" style={{ backgroundImage: `url('${project.topSectionImg}')` }} />
+                    </ScrollAnimation>
 
                     <ProjectInfoComponent
                         project={project}
@@ -60,9 +63,11 @@ function ProjectItemPage({ project, match, fetchProjects }) {
 
                     {
                         project.bottomSectionImg &&
-                            <div className="project-item-image">
-                                <img src={`${project.bottomSectionImg}`} alt="Presentation" />
-                            </div>
+                            <ScrollAnimation animateIn="fadeIn" duration={1.7} animateOnce={true}>
+                                <div className="project-item-image">
+                                    <img src={`${project.bottomSectionImg}`} alt="Presentation" />
+                                </div>
+                            </ScrollAnimation>
                     }
                 </div>
             }
