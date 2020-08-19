@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './SectionImageComponent.css';
 
 import { toBase64 } from "../../helpers/helpers";
-import { config } from "../../config";
 import { commonIcons } from "../../images/icons";
 
 export default function SectionImageComponent({ image, changeImage, notFullHeight, isPreview }) {
@@ -15,7 +14,7 @@ export default function SectionImageComponent({ image, changeImage, notFullHeigh
                 setImgInBase64(res);
             });
         } else if (typeof image === 'string') {
-            setImgInBase64(config.publicApiForImages + image);
+            setImgInBase64(image);
         }
     }, [image]);
 
