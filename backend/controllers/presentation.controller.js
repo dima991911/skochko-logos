@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const slugify = require('slugify');
-const fs = require('fs');
 const awsSdk = require('aws-sdk');
 const handleError = require('errorhandler');
 
@@ -46,6 +45,7 @@ module.exports.createPresentation = async(req, res) => {
         const topSectionImg = await saveFileInS3(files.topSectionImg[0]);
         newProject.topSectionImg = topSectionImg.Location;
     } catch (err) {
+        res.status(500).send({ error: err });
         handleError(err);
     }
 
@@ -293,19 +293,3 @@ const deleteFromS3 = async (key) => {
         });
     })
 }
-
-const removeImages = (imagesUrlArr) => {
-    imagesUrlArr.forEach(url => {
-        const path = 'public/' + url;
-        if (fs.existsSync(path)) {
-            fs.unlinkSync(path);
-        }
-    });
-};
-
-const saveImg = (imgFile) => {
-    const name =  uuidv4() + '.jpg';
-
-    fs.writeFileSync('public/' + name, imgFile.buffer);
-    return name;
-};
