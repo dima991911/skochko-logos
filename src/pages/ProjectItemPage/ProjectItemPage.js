@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import ScrollAnimation from 'react-animate-on-scroll';
 import './ProjectItemPage.css';
 
-import { config } from "../../config";
 import { fetchProjects } from "../../store/actions";
 import { ProjectService } from "../../services/ProjectService";
 
@@ -31,7 +30,7 @@ function ProjectItemPage({ project, match, fetchProjects }) {
         return images.map(img => (
                 <div className="project-item-image" key={img._id}>
                     <ScrollAnimation animateIn="fadeIn" duration={1} animateOnce={true}>
-                        <img src={`${config.publicApiForImages}${img.url}`} alt="Presentation" />
+                        <img src={`${img.url}`} alt="Presentation" />
                     </ScrollAnimation>
                 </div>
         ))
@@ -41,7 +40,7 @@ function ProjectItemPage({ project, match, fetchProjects }) {
         <>
             {project &&
                 <div className="project-container" style={{ backgroundColor: project.backgroundColor, color: project.textColor }}>
-                    <div className="top-section-avatar" style={{ backgroundImage: `url('${config.publicApiForImages}${project.topSectionImg}')` }} />
+                    <div className="top-section-avatar" style={{ backgroundImage: `url('${project.topSectionImg}')` }} />
 
                     <ProjectInfoComponent
                         project={project}
@@ -62,7 +61,7 @@ function ProjectItemPage({ project, match, fetchProjects }) {
                     {
                         project.bottomSectionImg &&
                             <div className="project-item-image">
-                                <img src={`${config.publicApiForImages}${project.bottomSectionImg}`} alt="Presentation" />
+                                <img src={`${project.bottomSectionImg}`} alt="Presentation" />
                             </div>
                     }
                 </div>

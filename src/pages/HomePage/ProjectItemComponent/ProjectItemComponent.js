@@ -2,7 +2,6 @@ import React, { useEffect, useRef } from "react";
 import { withRouter } from "react-router-dom";
 import './ProjectItemComponent.css';
 
-import { config } from "../../../config/index";
 import { commonIcons } from "../../../images/icons";
 
 import ParallaxPreviewComponent from "../../../compnents/ParallaxPreviewComponent/ParallaxPreviewComponent";
@@ -74,7 +73,7 @@ function ProjectItemComponent({ work, history, slug, isAuth, isFirstProject, isL
             }
 
                 <div className="parallax-container">
-                    <ParallaxPreviewComponent imgUrl={`${config.publicApiForImages}${work.preview}`} onClick={navigateToProjectPresentation} />
+                    <ParallaxPreviewComponent imgUrl={`${work.preview}`} onClick={navigateToProjectPresentation} />
 
                     {
                         isAuth &&

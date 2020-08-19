@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
 const slugify = require('slugify');
 const fs = require('fs');
+const awsSdk = require('aws-sdk');
+const handleError = require('errorhandler');
+
+const config = require('../config/index');
+
+const bucket = config.bucket;
 
 const Image = mongoose.model('Images');
 const Presentation = mongoose.model('Presentations');
@@ -22,45 +28,72 @@ const defaultPresentation = {
     bottomSectionImg: null,
 };
 
+const s3bucket = new awsSdk.S3({
+    accessKeyId: bucket.USER_KEY,
+    secretAccessKey: bucket.USER_SECRET,
+    Bucket: bucket.BUCKET_NAME
+});
+
 module.exports.createPresentation = async(req, res) => {
     const body = req.body;
     const files = req.files;
     const slug = slugify(body.name, { lower: true, replacement: '-' });
     const projectsList = await PresentationList.findOne({}).populate('projects');
 
-    const topSectionImg = saveImg(files.topSectionImg[0]);
-    const preview = saveImg(files.preview[0]);
-    let newProject = new Presentation({ ...defaultPresentation, ...body, topSectionImg, preview, slug });
+    let newProject = new Presentation({ ...defaultPresentation, ...body, slug });
+
+    try {
+        const topSectionImg = await saveFileInS3(files.topSectionImg[0]);
+        newProject.topSectionImg = topSectionImg.Location;
+    } catch (err) {
+        handleError(err);
+    }
+
+    try {
+        const preview = await saveFileInS3(files.preview[0]);
+        newProject.preview = preview.Location;
+    } catch (err) {
+        handleError(err);
+    }
 
     if (files.bottomSectionImg) {
-        const bottomSectionImg = saveImg(files.bottomSectionImg[0]);
-        newProject.bottomSectionImg = bottomSectionImg;
+        try {
+            const bottomSectionImg = await saveFileInS3(files.bottomSectionImg[0]);
+            newProject.bottomSectionImg = bottomSectionImg.Location;
+        } catch (err) {
+            handleError(err);
+        }
     }
 
+    const imagesPromises = [];
     if (files.images) {
-        const imgPromises = [];
-
         files.images.forEach(img => {
-            imgPromises.push(new Promise((resolve, reject) => {
-                const url = saveImg(img);
-                Image.create({ url }, (err, createdImg) => {
-                    if (err) res.status(500).send({ error: 'Something went wrong' });
-                    else {
-                        resolve(createdImg._id);
-                    }
-                });
-            }));
+            imagesPromises.push(saveFileInS3(img));
         });
-
-        newProject.images = await Promise.all(imgPromises);
-        await projectsList.save();
     }
 
-    await newProject.save();
-    projectsList.projects.push(newProject._id);
-    await projectsList.save();
-    newProject = await newProject.populate('images').execPopulate();
-    res.status(200).json({ project: newProject });
+    if (imagesPromises.length > 0) {
+        const createdImages = await Promise.all(imagesPromises);
+        Image.insertMany(createdImages.map(i => {
+            return { url: i.Location };
+        }), async (err, images) => {
+            if (err) handleError(err);
+            else {
+                newProject.images = images.map(i => i._id);
+                await newProject.save();
+
+                projectsList.projects.push(newProject._id);
+                await projectsList.save();
+                newProject = await newProject.populate('images').execPopulate();
+                res.status(200).json({ project: newProject });
+            }
+        });
+    } else {
+        await newProject.save();
+        projectsList.projects.push(newProject._id);
+        await projectsList.save();
+        res.status(200).json({ project: newProject });
+    }
 };
 
 module.exports.getProjects = async(req, res) => {
@@ -79,8 +112,23 @@ module.exports.removeProject = async(req, res) => {
     const project = await Presentation.findById(id).populate('images');
     const projectList = await PresentationList.findOne({});
 
-    const urlForDelete = [project.preview, project.topSectionImg, project.bottomSectionImg, ...project.images.map(i => i.url)];
-    removeImages(urlForDelete);
+    const keyForDelete = [
+        getKeyFromUrl(project.preview),
+        getKeyFromUrl(project.topSectionImg),
+        ...project.images.map(i => getKeyFromUrl(i.url)),
+    ];
+
+    if (project.bottomSectionImg) keyForDelete.push(getKeyFromUrl(project.bottomSectionImg));
+
+
+    try {
+        const deleteImagesPromises = [];
+        keyForDelete.forEach(k => deleteImagesPromises.push(deleteFromS3(k)));
+        await Promise.all(deleteImagesPromises);
+
+    } catch (err) {
+        res.status(500).send({ error: err });
+    }
 
     await Image.deleteMany({ _id: { $in: [...project.images.map(i => i._id)] } });
     project.remove(async err => {
@@ -120,14 +168,20 @@ module.exports.changeOrder = async(req, res) => {
 module.exports.changePreview = async (req, res) => {
     const { id } = req.params;
     const preview = req.files.preview[0];
-
     const project = await Presentation.findById(id).populate('images');
-    removeImages([project.preview]);
 
-    project.preview = saveImg(preview);
-    await project.save();
+    try {
+        const key = getKeyFromUrl(project.preview);
+        await deleteFromS3(key);
 
-    res.status(200).json({ project });
+        const newPreview = await saveFileInS3(preview);
+        project.preview = newPreview.Location;
+        await project.save();
+        res.status(200).json({ project });
+    } catch (err) {
+        res.status(500).send({ error: err });
+        handleError(err);
+    }
 };
 
 module.exports.updateProject = async (req, res) => {
@@ -137,48 +191,58 @@ module.exports.updateProject = async (req, res) => {
     const project = await Presentation.findById(id).populate('images');
 
     if (files.topSectionImg) {
-        removeImages([project.topSectionImg]);
-        project.topSectionImg = saveImg(files.topSectionImg[0]);
+        await deleteFromS3(getKeyFromUrl(project.topSectionImg));
+        const newTopSection = await saveFileInS3(files.topSectionImg[0]);
+        project.topSectionImg = newTopSection.Location;
     }
 
     if (files.bottomSectionImg) {
-        removeImages([project.bottomSectionImg]);
-        project.bottomSectionImg = saveImg(files.bottomSectionImg[0]);
+        await deleteFromS3(getKeyFromUrl(project.bottomSectionImg));
+        const newBottomSection = await saveFileInS3(files.bottomSectionImg[0]);
+        project.bottomSectionImg = newBottomSection.Location;
     }
 
     if (body.deleteImages) {
         const deleteImagesIds = body.deleteImages.split(',');
         const findImagesForDelete = await Image.find({ _id: { $in: deleteImagesIds } });
-        removeImages(findImagesForDelete.map(i => i.url));
-        await Image.deleteMany({ _id: { $in: deleteImagesIds } });
+
+        try {
+            const imagesForDeletePromises = [];
+            findImagesForDelete.forEach(i => imagesForDeletePromises.push(deleteFromS3(getKeyFromUrl(i.url))));
+
+            await Promise.all(imagesForDeletePromises);
+            await Image.deleteMany({ _id: { $in: deleteImagesIds } });
+        } catch (err) {
+            res.status(500).send({ error: err });
+        }
     }
 
     if (files.images) {
         const imagePromises = [];
         files.images.forEach(i => {
-            imagePromises.push(new Promise((resolve, reject) => {
-                Image.create({ url: saveImg(i) }, (err, newImage) => {
-                    if (err) reject();
-                    else resolve(newImage._id);
-                });
-            }))
+            imagePromises.push(saveFileInS3(i));
         })
 
-        Promise.all(imagePromises)
-            .then(async imgIds => {
-                project.images.push(...imgIds);
-                delete body['deleteImages'];
+        try {
+            const newImages = await Promise.all(imagePromises);
+            const createdImages = await Image.insertMany(newImages.map(i => {
+                return { url: i.Location };
+            }));
 
-                for (let key in body) {
-                    project[key] = body[key];
-                }
+            project.images.push(...createdImages.map(i => i._id));
+            delete body['deleteImages'];
 
-                await project.save();
-                res.status(200).json({ project });
-            })
-            .catch(() => {
-                res.status(500).send({ error: 'Something went wrong' });
-            });
+            for (let key in body) {
+                project[key] = body[key];
+            }
+
+            await project.save();
+            res.status(200).json({ project });
+
+        } catch (err) {
+            res.status(200).send({ error: err });
+        }
+
     } else {
         delete body['deleteImages'];
 
@@ -190,6 +254,45 @@ module.exports.updateProject = async (req, res) => {
         res.status(200).json({ project });
     }
 };
+
+const getKeyFromUrl = (url) => {
+    return url.substr(url.lastIndexOf('/') + 1);
+};
+
+const saveFileInS3 = async (file) => {
+    return new Promise(((resolve, reject) => {
+        s3bucket.createBucket(function () {
+            const params = {
+                Bucket: bucket.BUCKET_NAME,
+                Key: uuidv4(),
+                ContentType: file.mimetype,
+                Body: file.buffer,
+                ACL: 'public-read',
+            };
+
+            s3bucket.upload(params, function (err, data) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(data);
+            });
+        });
+    }))
+};
+
+const deleteFromS3 = async (key) => {
+    return new Promise((resolve, reject) => {
+        s3bucket.deleteObject({
+            Bucket: bucket.BUCKET_NAME,
+            Key: key,
+        }, function(err, data) {
+            if (err) reject(err);
+            else {
+                resolve(data);
+            }
+        });
+    })
+}
 
 const removeImages = (imagesUrlArr) => {
     imagesUrlArr.forEach(url => {
