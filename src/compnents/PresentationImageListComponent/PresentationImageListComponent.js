@@ -15,6 +15,7 @@ export default function PresentationImageListComponent({ images, addImage, remov
 
     const addImageToPresentation = (e) => {
         addImage(e.target.files[0]);
+        inputEl.current.value = '';
     };
 
     const removeImageFromPresentation = (i) => {
