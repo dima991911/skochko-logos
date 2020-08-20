@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 
 import { ProjectService } from "../../services/ProjectService";
-import { updateProjectForUpdate } from "../../store/actions";
+import { updateProjectForUpdate, setSpinnerLoading } from "../../store/actions";
 
 import SectionImageComponent from "../../compnents/SectionImageComponent/SectionImageComponent";
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
@@ -11,7 +11,7 @@ import PresentationImageListComponent
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 import PanelControlComponent from "../../compnents/PanelControlComponent/PanelControlComponent";
 
-function UpdatePresentationPage({ project, history, updateProjectForUpdate }) {
+function UpdatePresentationPage({ project, history, updateProjectForUpdate, setSpinnerLoading }) {
     const [imgForDelete, setImgForDelete] = useState([]);
     const [isPreview, setPreview] = useState(false);
 
@@ -67,6 +67,7 @@ function UpdatePresentationPage({ project, history, updateProjectForUpdate }) {
     const handleUpdatePresentation = () => {
         const fd = generateFormData();
 
+        setSpinnerLoading(true);
         ProjectService.updateProject(fd, project._id)
             .then(() => {
                 history.push('/');
@@ -74,6 +75,9 @@ function UpdatePresentationPage({ project, history, updateProjectForUpdate }) {
             .catch(err => {
                 alert(err);
             })
+            .finally(() => {
+                setSpinnerLoading(false);
+            });
     };
 
     const generateFormData = () => {
@@ -160,6 +164,7 @@ const stateToProps = (state) => {
 
 const mapDispatchToProps = {
     updateProjectForUpdate,
+    setSpinnerLoading,
 }
 
 export default connect(stateToProps, mapDispatchToProps)(UpdatePresentationPage);

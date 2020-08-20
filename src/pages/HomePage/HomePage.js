@@ -5,7 +5,7 @@ import "./HomePage.css";
 import AddProjectComponent from "./AddProjectComponent/AddProjectComponent";
 import { ProjectService } from "../../services/ProjectService";
 
-import { updateNewProject, fetchProjects, deleteProject, updateProject, setProjectForUpdate } from "../../store/actions";
+import { updateNewProject, fetchProjects, deleteProject, updateProject, setProjectForUpdate, setSpinnerLoading } from "../../store/actions";
 import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 import ProjectItemComponent from "./ProjectItemComponent/ProjectItemComponent";
 
@@ -15,7 +15,7 @@ const topSectionTitles = [
 ];
 
 function HomePage({ isAuth, projects, history, newProject, updateNewProject,
-                      fetchProjects, deleteProject, updateProject, setProjectForUpdate }) {
+                      fetchProjects, deleteProject, updateProject, setProjectForUpdate, setSpinnerLoading }) {
     const [canAnimateTitle, setAnimateTitle] = useState(false);
 
     useEffect(() => {
@@ -55,6 +55,7 @@ function HomePage({ isAuth, projects, history, newProject, updateNewProject,
     const handleChangePreview = (preview, projectId) => {
         const fd = new FormData();
         fd.append('preview', preview);
+        setSpinnerLoading(true);
 
         ProjectService.changePreview(fd, projectId)
             .then(res => {
@@ -63,9 +64,13 @@ function HomePage({ isAuth, projects, history, newProject, updateNewProject,
             .catch(err => {
                 alert(err);
             })
+            .finally(() => {
+                setSpinnerLoading(false);
+            });
     };
 
     const handleChangeOrder = (isToTop, projectId) => {
+        setSpinnerLoading(true);
         ProjectService.changeOrder(isToTop, projectId)
             .then(async () => {
                 const res = await ProjectService.fetchProjects();
@@ -73,16 +78,24 @@ function HomePage({ isAuth, projects, history, newProject, updateNewProject,
             })
             .catch(err => {
                 alert(err);
+            })
+            .finally(() => {
+                setSpinnerLoading(false);
             });
     };
 
     const handleRemoveProject = (id) => {
+        setSpinnerLoading(true);
+
         ProjectService.removeProject(id)
             .then(res => {
                 deleteProject(res.id);
             })
             .catch(() => {
                 alert('Something went wrong, try again');
+            })
+            .finally(() => {
+                setSpinnerLoading(false);
             });
     };
 
@@ -134,6 +147,7 @@ const mapDispatchToProps = {
     deleteProject,
     updateProject,
     setProjectForUpdate,
+    setSpinnerLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

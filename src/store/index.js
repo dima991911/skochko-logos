@@ -1,7 +1,7 @@
 import { createStore } from "redux";
 import { UserService } from "../services/UserService";
 
-import { newProjectReducer, userReducer, projectReducer, editProjectReducer } from "./reducers";
+import { newProjectReducer, userReducer, projectReducer, editProjectReducer, spinnerReducer } from "./reducers";
 
 import { newProjectInit } from "../helpers/helpers";
 
@@ -11,7 +11,8 @@ const defaultState = {
     isAuth: isUserAuth,
     projects: [],
     newProject: { ...newProjectInit },
-    projectForUpdate: null,
+    editProject: null,
+    isLoading: false,
 };
 
 function reducers(state = defaultState, action) {
@@ -19,7 +20,8 @@ function reducers(state = defaultState, action) {
         newProject: newProjectReducer(state.newProject, action),
         isAuth: userReducer(state.isAuth, action),
         projects: projectReducer(state.projects, action),
-        editProject: editProjectReducer(state.projectForUpdate, action),
+        editProject: editProjectReducer(state.editProject, action),
+        isLoading: spinnerReducer(state.isLoading, action),
     }
 }
 
