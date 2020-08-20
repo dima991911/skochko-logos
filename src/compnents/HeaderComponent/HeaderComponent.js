@@ -7,7 +7,7 @@ import 'animate.css/animate.css';
 import logo from "../../images/logo.png";
 import { commonIcons } from "../../images/icons";
 
-function HeaderComponent({ isBackBtn, history }) {
+function HeaderComponent({ isBackBtn, onClickBackBtn, history }) {
     const [showHeader, setShowHeader] = useState(1);
     const [showBackBtn, setShowBackBtn] = useState(false);
 
@@ -37,7 +37,11 @@ function HeaderComponent({ isBackBtn, history }) {
     }, [isBackBtn]);
 
     const navigateToHome = () => {
-        history.push('/');
+        if (onClickBackBtn) {
+            onClickBackBtn();
+        } else {
+            history.push('/');
+        }
     };
 
     return (

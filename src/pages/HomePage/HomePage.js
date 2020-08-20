@@ -103,10 +103,16 @@ function HomePage({ isAuth, projects, history, newProject, updateNewProject,
         updateNewProject(project);
     };
 
+    const handleBackBtnClick = () => {
+        window.SmoothScroll.setScrollPos(0);
+    };
+
     return (
         <div className="page">
             <div className="top-section-wrapper">
-                <HeaderComponent />
+                <HeaderComponent
+                    onClickBackBtn={handleBackBtnClick}
+                />
 
                 <section className="top-section">
                     {canAnimateTitle && (
