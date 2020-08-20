@@ -1,21 +1,31 @@
-import React, {useEffect, useRef} from 'react';
+import React, { useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
+import classes from 'classnames';
 import './HeaderComponent.css';
+import 'animate.css/animate.css';
 
 import logo from "../../images/logo.png";
 import { commonIcons } from "../../images/icons";
 
-export default function HeaderComponent() {
-    const headerRef = useRef(null);
+function HeaderComponent({ isBackBtn, history }) {
+    const [showHeader, setShowHeader] = useState(1);
+    const [showBackBtn, setShowBackBtn] = useState(false);
 
     useEffect(() => {
         const initScroll = () => {
             const width = window.innerWidth;
             const scrollY = window.scrollY;
 
-            if (width < 1300 && scrollY > 50) {
-                headerRef.current.style.opacity = 0;
+            if (!isBackBtn) {
+                if (width < 1300 && scrollY > 50) {
+                    setShowHeader(0);
+                } else {
+                    setShowHeader(1);
+                }
             } else {
-                headerRef.current.style.opacity = 1;
+                if (scrollY > window.innerHeight / 2) {
+                    setShowBackBtn(true);
+                }
             }
         };
 
@@ -24,11 +34,28 @@ export default function HeaderComponent() {
         return () => {
             window.removeEventListener('scroll', initScroll);
         }
-    }, []);
+    }, [isBackBtn]);
+
+    const navigateToHome = () => {
+        history.push('/');
+    };
 
     return (
-        <header className="header" ref={headerRef}>
-            <div className="header-logo">
+        <header className="header" style={{ opacity: showHeader }}>
+
+            <div
+                className={classes('back-btn', { 'animate__fadeInLeft': showBackBtn })}
+                style={{ opacity: showBackBtn ? 1 : 0 }}
+                onClick={navigateToHome}
+            >
+                <img src={commonIcons.leftChevron} alt="Back" />
+            </div>
+
+            <div
+                className={classes('header-logo', { 'animate__fadeOutRight': showBackBtn })}
+                style={{ opacity: showBackBtn ? 0 : 1 }}
+                onClick={navigateToHome}
+            >
                 <img src={logo} alt="Logo" />
             </div>
 
@@ -52,3 +79,5 @@ export default function HeaderComponent() {
         </header>
     )
 }
+
+export default withRouter(HeaderComponent);

@@ -9,6 +9,7 @@ import { ProjectService } from "../../services/ProjectService";
 
 import ProjectInfoComponent from "../../compnents/ProjectInfoComponent/ProjectInfoComponent";
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
+import HeaderComponent from "../../compnents/HeaderComponent/HeaderComponent";
 
 function ProjectItemPage({ project, match, fetchProjects }) {
 
@@ -41,6 +42,8 @@ function ProjectItemPage({ project, match, fetchProjects }) {
         <>
             {project &&
                 <div className="project-container" style={{ backgroundColor: project.backgroundColor, color: project.textColor }}>
+                    <HeaderComponent isBackBtn />
+
                     <ScrollAnimation animateIn="fadeIn" duration={1.7} animateOnce={true}>
                         <div className="top-section-avatar" style={{ backgroundImage: `url('${project.topSectionImg}')` }} />
                     </ScrollAnimation>
