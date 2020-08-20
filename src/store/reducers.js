@@ -1,4 +1,4 @@
-import { NewProjectType, UserType, ProjectType, ProjectForUpdateType } from "./actions";
+import { NewProjectType, UserType, ProjectType, ProjectForUpdateType, SpinnerType } from "./actions";
 
 export function newProjectReducer(state, action) {
     switch (action.type) {
@@ -44,6 +44,15 @@ export function editProjectReducer(state, action) {
             return { ...action.project };
         case ProjectForUpdateType.UPDATE_PROJECT:
             return { ...action.project };
+        default:
+            return state;
+    }
+}
+
+export function spinnerReducer(state, action) {
+    switch (action.type) {
+        case SpinnerType.SET_LOADING:
+            return action.isLoading;
         default:
             return state;
     }

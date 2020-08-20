@@ -49,3 +49,11 @@ export function setProjectForUpdate(project) {
 export function updateProjectForUpdate(project) {
     return { type: ProjectForUpdateType.UPDATE_PROJECT, project };
 }
+
+export const SpinnerType = {
+    SET_LOADING: 'SET_LOADING',
+};
+
+export function setSpinnerLoading(isLoading) {
+    return { type: SpinnerType.SET_LOADING, isLoading };
+}

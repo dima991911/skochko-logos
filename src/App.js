@@ -13,6 +13,7 @@ import store from "./store";
 
 import { SmoothScroll } from "./helpers/helpers";
 import ScrollToTopComponent from "./compnents/ScrollToTopComponent/ScrollToTopComponent";
+import SpinnerComponent from "./compnents/SpinnerComponent/SpinnerComponent";
 import PrivateRoute from "./compnents/PrivateRouteComponent/PrivateRouteComponent";
 
 import HomePage from "./pages/HomePage/HomePage";
@@ -44,10 +45,10 @@ function App() {
 
     return (
         <Provider store={store}>
+            <SpinnerComponent />
             <ParallaxProvider>
                 <Router>
                     <ScrollToTopComponent />
-
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route path="/projects/:slug" component={ProjectItemPage} />

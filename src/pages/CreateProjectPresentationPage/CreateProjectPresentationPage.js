@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import './CreateProjectPresentationPage.css';
 
-import { updateNewProject, createProject } from "../../store/actions";
+import { updateNewProject, createProject, setSpinnerLoading } from "../../store/actions";
 import { ProjectService } from "../../services/ProjectService";
 import { newProjectInit } from "../../helpers/helpers";
 
@@ -12,7 +12,7 @@ import PresentationImageListComponent from "../../compnents/PresentationImageLis
 import PresentationFeedbackComponent from "../../compnents/PresentationFeedbackComponent/PresentationFeedbackComponent";
 import PanelControlComponent from "../../compnents/PanelControlComponent/PanelControlComponent";
 
-function CreateProjectPresentationPage({ newProject, updateNewProject, createProject, history }) {
+function CreateProjectPresentationPage({ newProject, updateNewProject, setSpinnerLoading, createProject, history }) {
     const [isPreview, setIsPreview] = useState(false);
 
     const { topSectionImg, images, bottomSectionImg, backgroundColor, textColor, feedback, name, preview } = newProject;
@@ -77,11 +77,18 @@ function CreateProjectPresentationPage({ newProject, updateNewProject, createPro
         const fd = generateFormData();
 
         if (isValidatePresentation) {
+            setSpinnerLoading(true);
             ProjectService.createProject(fd)
                 .then(res => {
                     createProject(res.project);
                     updateNewProject({ ...newProjectInit });
                     history.push('/');
+                })
+                .catch((err) => {
+                    alert(err);
+                })
+                .finally(() => {
+                    setSpinnerLoading(false);
                 });
         }
     };
@@ -164,6 +171,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
     updateNewProject,
     createProject,
+    setSpinnerLoading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateProjectPresentationPage);

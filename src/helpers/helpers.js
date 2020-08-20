@@ -7,6 +7,7 @@ function SmoothScroll(target, speed, smooth) {
     else this.target = target;
 
     this.moving = false;
+    this.disable = false;
     this.pos = this.target.scrollTop;
     this.frame = this.target === document.body
     && document.documentElement
@@ -16,11 +17,13 @@ function SmoothScroll(target, speed, smooth) {
     const scrolled = (e) => {
         e.preventDefault();
 
-        let delta = normalizeWheelDelta(e);
+        if (!this.disable) {
+            let delta = normalizeWheelDelta(e);
 
-        this.pos += -delta * speed;
-        this.pos = Math.max(0, Math.min(this.pos, this.target.scrollHeight - this.frame.clientHeight));
-        if (!this.moving) update()
+            this.pos += -delta * speed;
+            this.pos = Math.max(0, Math.min(this.pos, this.target.scrollHeight - this.frame.clientHeight));
+            if (!this.moving) update()
+        }
     };
 
     this.target.addEventListener('scroll', scrolled, { passive: false });
@@ -65,6 +68,10 @@ function SmoothScroll(target, speed, smooth) {
 
     this.setScrollPos = (pos) => {
         this.pos = pos;
+    };
+
+    this.setDisableScroll = (bool) => {
+        this.disable = bool;
     };
 }
 
