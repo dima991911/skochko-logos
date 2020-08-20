@@ -197,7 +197,9 @@ module.exports.updateProject = async (req, res) => {
     }
 
     if (files.bottomSectionImg) {
-        await deleteFromS3(getKeyFromUrl(project.bottomSectionImg));
+        if (project.bottomSectionImg) {
+            await deleteFromS3(getKeyFromUrl(project.bottomSectionImg));
+        }
         const newBottomSection = await saveFileInS3(files.bottomSectionImg[0]);
         project.bottomSectionImg = newBottomSection.Location;
     }
